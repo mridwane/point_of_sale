@@ -12,8 +12,11 @@ class Auth extends CI_Controller {
 
 	public function index()
 	{
-		$url['title'] = "Login";
-		$this->load->view('Auth/login', $url);
+		$data = array(
+			'title' => 'Login',
+			'style' => 'login'
+		);
+		$this->template->load('app/app_auth', 'Auth/v_login', $data);
 	}
 
 	public function register()
