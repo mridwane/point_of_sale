@@ -59,6 +59,8 @@
 <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-users.js"></script>
 <script src="<?= base_url(); ?>assets/dist/js-custom/validasi-login.js"></script>
 
+<script src="<?= base_url(); ?>assets/dist/autoNumeric/autoNumeric.js"></script>
+
 <script>
     $('.datepicker').datepicker({
         format: 'dd-mm-yyyy',

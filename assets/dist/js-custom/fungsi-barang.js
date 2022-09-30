@@ -14,7 +14,7 @@ $(document).ready(function(){
         $('#kd_barang').focus();
     })  
 
-    table = $('#table').DataTable({ 
+    table = $('#tableBarang').DataTable({ 
  
         "processing": true, 
         "serverSide": true, 
@@ -834,7 +834,7 @@ $(document).ready(function(){
         }        
     });
      //tampilkan data
-    $('#table').on('click','.edit_barang',function(){
+    $('#tableBarang').on('click','.edit_barang',function(){
         var kd_barang = $(this).data('kd_barang');
         var nama_barang = $(this).data('nama_barang');
         var kategori = $(this).data('kategori');
@@ -851,7 +851,7 @@ $(document).ready(function(){
         $('[name="stokEdit"]').val(stok);
     });
 
-    $('#table').on('click','.add_stok',function(){
+    $('#tableBarang').on('click','.add_stok',function(){
         var kd_barang = $(this).data('kd_barang');
         var nama_barang = $(this).data('nama_barang');
         $('[name="kd_barang_add"]').val(kd_barang);
@@ -998,7 +998,7 @@ $(document).ready(function(){
     });
 
     //get data for delete record
-    $('#table').on('click','.delete_barang',function(){
+    $('#tableBarang').on('click','.delete_barang',function(){
         var kd_barang = $(this).data('kd_barang');
          
         Swal.fire({

@@ -20,8 +20,11 @@ class Barang extends CI_Controller {
     }
     public function index()
     {
-        $url['title'] = "Data Barang";
-        $data['kategori'] = $this->m_kategori->ambil_kategori()->result();
+        $data = array(
+            'title' => "Data Master",
+            'sub_title' => "Data Barang",
+			'kategori' => $this->m_kategori->ambil_kategori()->result(),
+		);
         $barang = $this->m_barang->cek_stok();
         $stokhabis = $this->m_barang->cek_stok_habis();
         if($barang == True)
@@ -43,10 +46,7 @@ class Barang extends CI_Controller {
                                                 </div>');
         }
         
-        $this->load->view('Tamplate/header', $url);
-        $this->load->view('Tamplate/sidebar');
-        $this->load->view('DataMaster/v_barang',$data);
-        $this->load->view('Tamplate/footer');
+        $this->template->load('app/app', 'DataMaster/v_barang', $data);
     }
 
     
