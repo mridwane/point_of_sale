@@ -19,11 +19,11 @@ class Kategori extends CI_Controller {
     }
     public function index()
     {
-        $url['title'] = "Data Kategori";
-        $this->load->view('Tamplate/header', $url);
-        $this->load->view('Tamplate/sidebar');
-        $this->load->view('DataMaster/v_kategori');
-        $this->load->view('Tamplate/footer');
+        $data = array(
+            'title' => "Data Master",
+            'sub_title' => "Data Kategori",
+        );
+        $this->template->load('app/app', 'DataMaster/v_kategori', $data);
     }
 
     function get_data_user()

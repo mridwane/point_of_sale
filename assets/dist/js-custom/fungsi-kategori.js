@@ -2,7 +2,7 @@ var table;
 $(document).ready(function(){
     // list_data(); //call function show all product  
 
-    table = $('#table').DataTable({ 
+    table = $('#tableKategori').DataTable({ 
  
         "processing": true, 
         "serverSide": true, 
@@ -148,7 +148,7 @@ $(document).ready(function(){
     });
 
     //get data for delete record
-    $('#table').on('click','.delete_kategori',function(){
+    $('#tableKategori').on('click','.delete_kategori',function(){
         var kd_kategori = $(this).data('kd_kategori');
          
         // $('#Modal_Delete').modal('show');
@@ -175,12 +175,13 @@ $(document).ready(function(){
                             'Data berhasil dihapus.',
                             'success'
                           )
-                          reload_table();
+                          
                     }
                 });
                 return false;
-              
+            
             }
+            reload_table();
           })
     });
 });
