@@ -55,24 +55,32 @@
                     </a>
                     <ul class="nav nav-treeview" <?php if(isset($title)) if($title == 'Data Master') echo 'style="display: block;"';?>>
                         <li class="nav-item">
-                            <a href="./index.html" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
+                            <a href="<?= site_url()?>Barang" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Barang</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index2.html" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
+                            <a href="<?= site_url()?>Kategori" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Kategori</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
+                            <a href="<?= site_url()?>DataPenjualan" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Penjualan</p>
                             </a>
                         </li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="<?= site_url()?>Transaksi" class="nav-link <?php if(isset($title)) if($title == 'Transaksi Offline') echo "active";?>">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Trannsaksi Offline
+                        </p>
+                    </a>
                 </li>
 
 
