@@ -6,7 +6,7 @@ $(document).ready(function(){
     
     $('#kd_barang').focus();
 
-    table = $('#table').DataTable({ 
+    table = $('#listBarang').DataTable({ 
  
         info: false,
         paging: false,
@@ -148,7 +148,7 @@ $(document).ready(function(){
     });
 
     //get data for delete record
-    $('#table').on('click','.delete_item',function(){
+    $('#listBarang').on('click','.delete_item',function(){
         var kd_barang = $(this).data('kd_barang');
          
         $.ajax({

@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $title; ?></title>    
     <?php $this->load->view('app/style'); ?>
+    <!-- style this page -->
+    <?php if(isset($style_page)) echo $style_page;?>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -63,6 +65,8 @@
 
     <!-- script -->
     <?php $this->load->view('app/script'); ?>   
+    <!-- script this page -->
+    <?php if(isset($script_page)) echo $script_page; ?>
 </body>
 
 </html>

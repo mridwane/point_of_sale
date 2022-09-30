@@ -17,11 +17,10 @@ class Transaksi extends CI_Controller {
 
     public function index()
     {
-        $url['title'] = "Transaksi";
-        $this->load->view('Tamplate/header', $url);
-        $this->load->view('Tamplate/sidebar');
-        $this->load->view('Transaksi/v_transaksi');
-        $this->load->view('Tamplate/footer');
+        $data = array(
+            'title' => "Transaksi Offline",
+        );
+        $this->template->load('app/app', 'Transaksi/v_transaksi', $data);
     }
 
     public function add_cart()

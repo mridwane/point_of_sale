@@ -18,7 +18,8 @@ class Dashboard extends CI_Controller {
     {
         $data = array(
             'title' => "Dashboard",
-            // 'sub_title' => "Data Barang",
+            'script_page' => '<script src="'.base_url().'assets/dist/js-custom/fungsi-dashboard.js"></script>',
+
 			'barang' => $this->db->count_all('barang'),
 			'kategori' => $this->db->count_all('kategori'),
             'transaksi' => $this->m_transaksi->total_transaksi(),

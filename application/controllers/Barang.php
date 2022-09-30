@@ -23,6 +23,8 @@ class Barang extends CI_Controller {
         $data = array(
             'title' => "Data Master",
             'sub_title' => "Data Barang",
+            'script_page' => '<script src="'.base_url().'assets/dist/js-custom/fungsi-dashboard.js"></script>',
+            
 			'kategori' => $this->m_kategori->ambil_kategori()->result(),
 		);
         $barang = $this->m_barang->cek_stok();
