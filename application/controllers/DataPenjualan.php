@@ -21,12 +21,11 @@ class DataPenjualan extends CI_Controller {
     
     public function index()
     {
-        $url['title'] = "Data Penjualan";
-        
-        $this->load->view('Tamplate/header', $url);
-        $this->load->view('Tamplate/sidebar');
-        $this->load->view('DataMaster/v_penjualan');
-        $this->load->view('Tamplate/footer');
+        $data = array(
+            'title' => "Data Master",
+            'sub_title' => "Data Penjualan",
+		);
+        $this->template->load('app/app', 'DataMaster/v_penjualan', $data);
     }
 
     function data_penjualan(){

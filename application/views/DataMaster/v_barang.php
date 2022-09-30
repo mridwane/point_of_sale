@@ -1,43 +1,38 @@
 <section class="content">
     <div class="container-fluid">
         <!-- /.row -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#tambah-data">Tambah Data</button>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="tableBarang" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nama Barang</th>
-                                            <th>Katergori</th>
-                                            <th>Harga Beli</th>
-                                            <th>Harga Jual</th>
-                                            <th>Stok</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <button type="button" class="btn btn-primary btn-rounded" data-toggle="modal" data-target="#tambah-data">Tambah Data</button>
                     </div>
-                    <!-- /.col -->
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="tableBarang" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Barang</th>
+                                    <th>Katergori</th>
+                                    <th>Harga Beli</th>
+                                    <th>Harga Jual</th>
+                                    <th>Stok</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <!-- /.row -->
+                <!-- /.card -->
             </div>
-            <!-- /.container-fluid -->
-        </section>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
     </div><!-- /.container-fluid -->
 </section>
 

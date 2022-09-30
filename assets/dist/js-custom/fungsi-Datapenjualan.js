@@ -10,7 +10,7 @@ $(document).ready(function(){
 
       //pemanggilan fungsi tampil barang.
          
-    $('#table').dataTable({
+    $('#tablePenjualan').dataTable({
         searching: false,
         info: false,
         paging: false,
@@ -20,7 +20,7 @@ $(document).ready(function(){
 
     $('#tampil').click(function(){
         var tanggal=$('#tanggal').val();
-        $('#table').dataTable().fnClearTable(); // untuk menghilangkan data ditable
+        $('#tablePenjualan').dataTable().fnClearTable(); // untuk menghilangkan data ditable
         $.ajax({
             type: "POST",
             url: "DataPenjualan/cek_transaksi",
@@ -48,7 +48,7 @@ $(document).ready(function(){
                                         '<td>'+data[i].jumlah+'</td>'+
                                         '</tr>';
                                         
-                        $('#show_data').html(html);
+                                $('#show_data').html(html);
                             }
                         }
                     });
