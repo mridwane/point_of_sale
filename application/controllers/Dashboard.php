@@ -16,18 +16,17 @@ class Dashboard extends CI_Controller {
     
     public function index()
     {
-        $data['barang'] = $this->db->count_all('barang'); 
-        $data['kategori'] = $this->db->count_all('kategori'); 
-        $data['transaksi'] = $this->m_transaksi->total_transaksi(); 
-        $data['barang_terjual'] = $this->m_transaksi->total_barang_terjual(); 
-        $data['list'] = $this->m_transaksi->list_barang_terjual(); 
-        $data['stok'] = $this->m_barang->stok_menipis(); 
-
-        $url['title'] = "Dashboard";
-        $this->load->view('Tamplate/header', $url);
-        $this->load->view('Tamplate/sidebar');
-        $this->load->view('Dashboard/home', $data);
-        $this->load->view('Tamplate/footer');
+        $data = array(
+            'title' => "Dashboard",
+            // 'sub_title' => "Data Barang",
+			'barang' => $this->db->count_all('barang'),
+			'kategori' => $this->db->count_all('kategori'),
+            'transaksi' => $this->m_transaksi->total_transaksi(),
+            'barang_terjual' => $this->m_transaksi->total_barang_terjual(),
+            'list' => $this->m_transaksi->list_barang_terjual(),
+            'stok' => $this->m_barang->stok_menipis(),
+		);
+        $this->template->load('app/app', 'Dashboard/v_dashboard', $data);
     }
 
 }
