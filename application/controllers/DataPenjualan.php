@@ -25,7 +25,7 @@ class DataPenjualan extends CI_Controller {
             'title' => "Data Master",
             'sub_title' => "Data Penjualan",
 		);
-        $this->template->load('app/app', 'DataMaster/v_penjualan', $data);
+        view('DataMaster/v_penjualan', $data);
     }
 
     function data_penjualan(){

@@ -16,7 +16,7 @@ class Auth extends CI_Controller {
 			'title' => 'Login',
 			'style' => 'login'
 		);
-		$this->template->load('app/app_auth', 'Auth/v_login', $data);
+		view('Auth/v_login', $data);
 	}
 
 	public function register()

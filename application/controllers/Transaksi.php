@@ -20,7 +20,7 @@ class Transaksi extends CI_Controller {
         $data = array(
             'title' => "Transaksi Offline",
         );
-        $this->template->load('app/app', 'Transaksi/v_transaksi', $data);
+        view('Transaksi/v_transaksi', $data);
     }
 
     public function add_cart()

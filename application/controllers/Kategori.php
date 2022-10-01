@@ -23,7 +23,7 @@ class Kategori extends CI_Controller {
             'title' => "Data Master",
             'sub_title' => "Data Kategori",
         );
-        $this->template->load('app/app', 'DataMaster/v_kategori', $data);
+        view('DataMaster/v_kategori', $data);
     }
 
     function get_data_user()

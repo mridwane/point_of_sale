@@ -18,7 +18,6 @@ class Dashboard extends CI_Controller {
     {
         $data = array(
             'title' => "Dashboard",
-            'script_page' => '<script src="'.base_url().'assets/dist/js-custom/fungsi-dashboard.js"></script>',
 
 			'barang' => $this->db->count_all('barang'),
 			'kategori' => $this->db->count_all('kategori'),
@@ -27,7 +26,7 @@ class Dashboard extends CI_Controller {
             'list' => $this->m_transaksi->list_barang_terjual(),
             'stok' => $this->m_barang->stok_menipis(),
 		);
-        $this->template->load('app/app', 'Dashboard/v_dashboard', $data);
+        view('Dashboard/v_dashboard', $data);
     }
 
 }
