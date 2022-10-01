@@ -49,7 +49,7 @@
 
 <!-- Js Custom -->
 
-<!-- <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-barang.js"></script>
+<script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-barang.js"></script>
 
 <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-Datapenjualan.js"></script>
 <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-kategori.js"></script>
@@ -57,7 +57,7 @@
 <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-users.js"></script>
 <script src="<?= base_url(); ?>assets/dist/js-custom/validasi-login.js"></script>
 
-<script src="<?= base_url(); ?>assets/dist/autoNumeric/autoNumeric.js"></script> -->
+<script src="<?= base_url(); ?>assets/dist/autoNumeric/autoNumeric.js"></script>
 
 <script>
     $('.datepicker').datepicker({
