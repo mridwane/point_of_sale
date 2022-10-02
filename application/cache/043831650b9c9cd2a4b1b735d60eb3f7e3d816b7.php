@@ -36,6 +36,35 @@
                     <div class="card-body">
                         <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
                         <div class="form-group">
+                            <select class="form-control anggota" name="anggota" id="anggota">
+                                <option value="" selected disabled>Pilih Tipe Pelanggan</option>
+                                <option value="anggota">Anggota</option>
+                                <option value="non-anggota">Non Anggota</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input id="noAnggota" class="form-control" type="text" placeholder="Masukan Nomer Anggota..." hidden>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Nama Anggota</label>
+                                    <input type="text" class="form-control" value="Ridwan" disabled="">
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>Wilayah</label>
+                                    <input type="text" class="form-control" value="Pandeglang" disabled="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
+                        <div class="form-group">
                             <input type="text" class="form-control custom-radius custom-shadow text-14" name="kd_barang"
                                 id="kd_barang" maxlength="255" placeholder="Masukan Kode Barang Kemudian Tekan Enter">
                             <small id="hintkd_barang"
@@ -70,7 +99,7 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control custom-radius custom-shadow text-14"
                                             data-a-sign="Rp. " data-a-sep="." id="diskon" name="diskon" value="Rp.0"
-                                            maxlength="25">
+                                            maxlength="25" disabled>
                                     </div>
                                 </div>
                             </div>

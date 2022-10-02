@@ -68,7 +68,7 @@ class Auth extends CI_Controller {
 	public function proses_login()
 	{
 		$username = html_escape($this->input->post('username'));
-		$password = html_escape($this->input->post('password'));
+		$password = html_escape(md5($this->input->post('password')));
 
 		$data = $this->m_users->get_users($username);
 		if(empty($data))
@@ -90,7 +90,7 @@ class Auth extends CI_Controller {
 			}
 			else
 			{
-				if(password_verify($password, $data->password))
+				if($password == $data->password)
 				{		
 					$kd_user = $data->kd_user;	
 					$cek_role = $data->kd_role;	
