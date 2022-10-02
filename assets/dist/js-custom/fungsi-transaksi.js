@@ -328,6 +328,16 @@ $(document).ready(function(){
         return false;
     });
 
+    $("#anggota").change(function(){
+        var selected = $(this).children("option:selected").val();
+        // console.log(selected)
+        if(selected == "anggota"){
+            $("#noAnggota").removeAttr("hidden")
+        }
+        else{
+            $("#noAnggota").attr("hidden", true)
+        }
+    });
 
    
 });
