@@ -9,7 +9,7 @@ $(document).ready(function(){
         "order": [], 
          
         "ajax": {
-            "url": "Kategori/get_data_user",
+            "url": "Product_type/get_data_user",
             "type": "POST"
         },
 
@@ -50,7 +50,7 @@ $(document).ready(function(){
             {
                 $.ajax({
                     type: "POST",
-                    url: "Kategori/cek_nama",
+                    url: "Product_type/cek_nama",
                     data: $(this).serialize(),
                     success: function (data){
                         // console.log(data);
@@ -116,7 +116,7 @@ $(document).ready(function(){
             {
                 $.ajax({
                     type : "POST",
-                    url  : "Kategori/add",
+                    url  : "Product_type/add",
                     dataType : "JSON",
                     data : {nama:nama},
                     success: function(data){
@@ -127,7 +127,7 @@ $(document).ready(function(){
                           )
                         $('[name="nama"]').val("");
                         $('#tambah-data').modal('hide');
-                        reload_table();
+                        reload_table()
                         
                     }
                 });
@@ -166,7 +166,7 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 $.ajax({
                     type : "POST",
-                    url  : "Kategori/delete",
+                    url  : "Product_type/delete",
                     dataType : "JSON",
                     data : {kd_kategori:kd_kategori},
                     success: function(data){
@@ -175,13 +175,12 @@ $(document).ready(function(){
                             'Data berhasil dihapus.',
                             'success'
                           )
-                          
+                        reload_table()
                     }
                 });
                 return false;
             
             }
-            reload_table();
           })
     });
 });

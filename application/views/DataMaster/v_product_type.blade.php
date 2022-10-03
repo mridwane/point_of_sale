@@ -92,6 +92,6 @@
     <script src="<?= base_url(); ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
     {{-- custom js --}}
-    <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-kategori.js"></script>
+    <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-product_type.js"></script>
     <script src="<?= base_url(); ?>assets/dist/autoNumeric/autoNumeric.js"></script>
 @endsection

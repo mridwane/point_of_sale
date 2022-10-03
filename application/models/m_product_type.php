@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class m_kategori extends CI_Model {
+class m_product_type extends CI_Model {
 
-    var $table = 'kategori'; //nama tabel dari database
-    var $column_order = array(null, 'kd_kategori','nama_kategori'); //field yang ada di table user
-    var $column_search = array('nama_kategori'); //field yang diizin untuk pencarian 
-    var $order = array('nama_kategori' => 'asc'); // default order 
+    var $table = 'wsproduct_type'; //nama tabel dari database
+    var $column_order = array(null, 'ccode','cname'); //field yang ada di table user
+    var $column_search = array('cname'); //field yang diizin untuk pencarian 
+    var $order = array('cname' => 'asc'); // default order 
 
     private function _get_datatables_query()
     {
@@ -70,27 +70,27 @@ class m_kategori extends CI_Model {
 
     public function get_nama($nama)
     {
-        $this->db->where('nama_kategori',$nama);
-        $query = $this->db->get('kategori');
+        $this->db->where('cname',$nama);
+        $query = $this->db->get($this->table);
         return $query->num_rows();
     }
 
     function ambil_kategori(){
-        $this->db->order_by('nama_kategori', 'ASC');
-        $query = $this->db->get('kategori');
+        $this->db->order_by('cname', 'ASC');
+        $query = $this->db->get($this->table);
         return $query;  
     }
 
     function add_kategori($data)
     {
-        $result=$this->db->insert('kategori',$data);
+        $result=$this->db->insert($this->table,$data);
         return $result;
     }
  
-    function delete_kategori($kd_kategori)
+    function delete_kategori($ccode)
     {        
-        $this->db->where('kd_kategori', $kd_kategori);
-        $result=$this->db->delete('kategori');
+        $this->db->where('ccode', $ccode);
+        $result=$this->db->delete($this->table);
         return $result;
     }
 

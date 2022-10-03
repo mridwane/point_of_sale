@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Kategori extends CI_Controller {
+class Product_type extends CI_Controller {
 
 	function __construct()
 	{
         parent::__construct();
-        $this->load->model('m_kategori');
+        $this->load->model('m_product_type');
         if(empty($this->session->userdata('is_login')))
         {
 			redirect('Auth/login');
@@ -23,27 +23,26 @@ class Kategori extends CI_Controller {
             'title' => "Data Master",
             'sub_title' => "Data Kategori",
         );
-        view('DataMaster/v_kategori', $data);
+        view('DataMaster/v_product_type', $data);
     }
 
     function get_data_user()
     {
-        $list = $this->m_kategori->get_datatables();
+        $list = $this->m_product_type->get_datatables();
         $data = array();
         $no = 1;
         foreach ($list as $field) {
             $row = array();
             $row[] = $no++;
-            $row[] = $field->nama_kategori;
-            $row[] = '<a href="javascript:void(0);" class="btn btn-danger btn-circle delete_kategori" data-kd_kategori="'.$field->kd_kategori.'"><i class="fas fa-trash"></i></a>';
- 
+            $row[] = $field->cname;
+            $row[] = '<a href="javascript:void(0);" class="btn btn-danger btn-circle delete_kategori" data-kd_kategori="'.$field->ccode.'"><i class="fas fa-trash"></i></a>'; 
             $data[] = $row;
         }
  
         $output = array(
             "draw" => $_POST['draw'],
-            "recordsTotal" => $this->m_kategori->count_all(),
-            "recordsFiltered" => $this->m_kategori->count_filtered(),
+            "recordsTotal" => $this->m_product_type->count_all(),
+            "recordsFiltered" => $this->m_product_type->count_filtered(),
             "data" => $data,
         );
         //output dalam format JSON
@@ -53,7 +52,7 @@ class Kategori extends CI_Controller {
     public function cek_nama()
 	{         
 		$nama = html_escape($this->input->post('nama'));
-		$cekNama = $this->m_kategori->get_nama($nama);
+		$cekNama = $this->m_product_type->get_nama($nama);
 		if ($cekNama > 0)
 		{
 			echo "nama ada";
@@ -63,7 +62,7 @@ class Kategori extends CI_Controller {
     public function cek_namaEdit()
 	{         
 		$nama = html_escape($this->input->post('namaEdit'));
-		$cekNama = $this->m_kategori->get_nama($nama);
+		$cekNama = $this->m_product_type->get_nama($nama);
 		if ($cekNama > 0)
 		{
 			echo "nama ada";
@@ -72,32 +71,21 @@ class Kategori extends CI_Controller {
  
     public function add()
     {
-        $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        $shuffle  = substr(str_shuffle($karakter), 0, 4);        
-        $kd_kategori = "K-".$shuffle;
+        // $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        // $shuffle  = substr(str_shuffle($karakter), 0, 4);        
+        // $kd_kategori = "K-".$shuffle;
         $nama = html_escape($this->input->post('nama'));
         $data = array(
-            'kd_kategori'  => $kd_kategori, 
-            'nama_kategori'  => $nama, 
+            'cname'  => $nama, 
         );
-        $data=$this->m_kategori->add_kategori($data);
-        echo json_encode($data);
-    }
- 
-    public function update(){
-        $kd_kategori = html_escape($this->input->post('kd_kategori'));
-
-        $data = array(
-            'nama_kategori' => html_escape($this->input->post('nama_kategori')),
-        );
-        $data=$this->m_kategori->update_kategori($data,$kd_kategori);
+        $data=$this->m_product_type->add_kategori($data);
         echo json_encode($data);
     }
  
     public function delete(){
         $kd_kategori = html_escape($this->input->post('kd_kategori'));
 
-        $data=$this->m_kategori->delete_kategori($kd_kategori);
+        $data=$this->m_product_type->delete_kategori($kd_kategori);
         echo json_encode($data);
     }
     
