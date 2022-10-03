@@ -61,7 +61,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url()?>Procut_type" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Kategori') echo 'active';?>">
+                            <a href="<?= site_url()?>Product_type" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Kategori') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Kategori</p>
                             </a>
