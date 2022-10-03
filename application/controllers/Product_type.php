@@ -35,7 +35,6 @@ class Product_type extends CI_Controller {
             $row = array();
             $row[] = $no++;
             $row[] = $field->cname;
-            $row[] = '<a href="javascript:void(0);" class="btn btn-danger btn-circle delete_kategori" data-kd_kategori="'.$field->ccode.'"><i class="fas fa-trash"></i></a>'; 
             $data[] = $row;
         }
  
@@ -49,45 +48,45 @@ class Product_type extends CI_Controller {
         echo json_encode($output);
     }
 
-    public function cek_nama()
-	{         
-		$nama = html_escape($this->input->post('nama'));
-		$cekNama = $this->m_product_type->get_nama($nama);
-		if ($cekNama > 0)
-		{
-			echo "nama ada";
-		}
-    }
+    // public function cek_nama()
+	// {         
+	// 	$nama = html_escape($this->input->post('nama'));
+	// 	$cekNama = $this->m_product_type->get_nama($nama);
+	// 	if ($cekNama > 0)
+	// 	{
+	// 		echo "nama ada";
+	// 	}
+    // }
     
-    public function cek_namaEdit()
-	{         
-		$nama = html_escape($this->input->post('namaEdit'));
-		$cekNama = $this->m_product_type->get_nama($nama);
-		if ($cekNama > 0)
-		{
-			echo "nama ada";
-		}
-	}
+    // public function cek_namaEdit()
+	// {         
+	// 	$nama = html_escape($this->input->post('namaEdit'));
+	// 	$cekNama = $this->m_product_type->get_nama($nama);
+	// 	if ($cekNama > 0)
+	// 	{
+	// 		echo "nama ada";
+	// 	}
+	// }
  
-    public function add()
-    {
-        // $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        // $shuffle  = substr(str_shuffle($karakter), 0, 4);        
-        // $kd_kategori = "K-".$shuffle;
-        $nama = html_escape($this->input->post('nama'));
-        $data = array(
-            'cname'  => $nama, 
-        );
-        $data=$this->m_product_type->add_kategori($data);
-        echo json_encode($data);
-    }
+    // public function add()
+    // {
+    //     // $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    //     // $shuffle  = substr(str_shuffle($karakter), 0, 4);        
+    //     // $kd_kategori = "K-".$shuffle;
+    //     $nama = html_escape($this->input->post('nama'));
+    //     $data = array(
+    //         'cname'  => $nama, 
+    //     );
+    //     $data=$this->m_product_type->add_product_type($data);
+    //     echo json_encode($data);
+    // }
  
-    public function delete(){
-        $kd_kategori = html_escape($this->input->post('kd_kategori'));
+    // public function delete(){
+    //     $kd_kategori = html_escape($this->input->post('kd_kategori'));
 
-        $data=$this->m_product_type->delete_kategori($kd_kategori);
-        echo json_encode($data);
-    }
+    //     $data=$this->m_product_type->delete_product_type($kd_kategori);
+    //     echo json_encode($data);
+    // }
     
  
 

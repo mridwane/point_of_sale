@@ -68,31 +68,31 @@ class m_product_type extends CI_Model {
         return $this->db->count_all_results();
     }
 
-    public function get_nama($nama)
-    {
-        $this->db->where('cname',$nama);
-        $query = $this->db->get($this->table);
-        return $query->num_rows();
-    }
+    // public function get_nama($cname)
+    // {
+    //     $this->db->where('cname',$cname);
+    //     $query = $this->db->get($this->table);
+    //     return $query->num_rows();
+    // }
 
-    function ambil_kategori(){
-        $this->db->order_by('cname', 'ASC');
-        $query = $this->db->get($this->table);
-        return $query;  
-    }
+    // function ambil_product_type(){
+    //     $this->db->order_by('cname', 'ASC');
+    //     $query = $this->db->get($this->table);
+    //     return $query;  
+    // }
 
-    function add_kategori($data)
-    {
-        $result=$this->db->insert($this->table,$data);
-        return $result;
-    }
+    // function add_product_type($data)
+    // {
+    //     $result=$this->db->insert($this->table,$data);
+    //     return $result;
+    // }
  
-    function delete_kategori($ccode)
-    {        
-        $this->db->where('ccode', $ccode);
-        $result=$this->db->delete($this->table);
-        return $result;
-    }
+    // function delete_product_type($ccode)
+    // {        
+    //     $this->db->where('ccode', $ccode);
+    //     $result=$this->db->delete($this->table);
+    //     return $result;
+    // }
 
 }
 ?>
