@@ -68,18 +68,18 @@ class m_product_type extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    function get_product_type(){
+        $this->db->order_by('cname', 'ASC');
+        $query = $this->db->get($this->table);
+        return $query;  
+    }
+
     // public function get_nama($cname)
     // {
     //     $this->db->where('cname',$cname);
     //     $query = $this->db->get($this->table);
     //     return $query->num_rows();
-    // }
-
-    // function ambil_product_type(){
-    //     $this->db->order_by('cname', 'ASC');
-    //     $query = $this->db->get($this->table);
-    //     return $query;  
-    // }
+    // }   
 
     // function add_product_type($data)
     // {

@@ -55,13 +55,13 @@
                     </a>
                     <ul class="nav nav-treeview" <?php if(isset($title)) if($title == 'Data Master') echo 'style="display: block;"';?>>
                         <li class="nav-item">
-                            <a href="<?= site_url()?>Barang" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
+                            <a href="<?= site_url()?>Product" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Barang</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="<?= site_url()?>Kategori" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Kategori') echo 'active';?>">
+                            <a href="<?= site_url()?>Product_type" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Kategori') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Kategori</p>
                             </a>
