@@ -28,18 +28,25 @@ class m_transaksi_offline extends CI_Model {
         return $query->row();
     }
 
-    // public function list_penjualan($tanggal)
-    // {
-    //     $this->db->select('b.nama_barang');
-    //     $this->db->select_sum('dt.jumlah');
-    //     $this->db->from('detail_transaksi as dt');
-    //     $this->db->join('barang as b', 'b.kd_barang = dt.kd_barang');
-    //     $this->db->join('transaksi as t', 't.kd_transaksi = dt.kd_transaksi');
-    //     $this->db->where('t.tanggal_transaksi', $tanggal);
-    //     $this->db->group_by('b.nama_barang');
-    //     $hasil = $this->db->get();
-    //     return $hasil->result();
-    // }
+    public function cek_penjualan($tanggal)
+    {
+        $this->db->where('cdate',$tanggal);
+        $query = $this->db->get('wssales');
+        return $query->num_rows();
+    }
+
+    public function list_penjualan($tanggal)
+    {
+        $this->db->select('p.cname');
+        $this->db->select_sum('sd.qty');
+        $this->db->from('wssales_detail as sd');
+        $this->db->join('wsproduct as p', 'p.ccode = sd.fid_product');
+        $this->db->join('wssales as s', 's.seq = sd.fid_sales');
+        $this->db->where('s.cdate', $tanggal);
+        $this->db->group_by('p.cname');
+        $hasil = $this->db->get();
+        return $hasil->result();
+    }
 
     // function laporan_transaksi($bulan)
     // {
@@ -126,12 +133,7 @@ class m_transaksi_offline extends CI_Model {
     //     return $hasil->result();
     // }
 
-    // public function cek_penjualan($tanggal)
-    // {
-    //     $this->db->where('tanggal_transaksi',$tanggal);
-    //     $query = $this->db->get('transaksi');
-    //     return $query->num_rows();
-    // }
+    
     
 
 }

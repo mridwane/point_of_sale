@@ -21,6 +21,7 @@ $(document).ready(function(){
     $('#tampil').click(function(){
         var tanggal=$('#tanggal').val();
         $('#tablePenjualan').dataTable().fnClearTable(); // untuk menghilangkan data ditable
+        console.log(tanggal)
         $.ajax({
             type: "POST",
             url: "DataPenjualan/cek_transaksi",
@@ -44,8 +45,8 @@ $(document).ready(function(){
                             for(i=0; i<data.length; i++){
                                 html += '<tr>'+
                                         '<td>'+no+++'</td>'+
-                                        '<td>'+data[i].nama_barang+'</td>'+
-                                        '<td>'+data[i].jumlah+'</td>'+
+                                        '<td>'+data[i].cname+'</td>'+
+                                        '<td>'+data[i].qty+'</td>'+
                                         '</tr>';
                                         
                                 $('#show_data').html(html);
