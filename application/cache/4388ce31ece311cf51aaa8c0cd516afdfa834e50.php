@@ -44,7 +44,7 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3><?php foreach($transaksi as $t){ echo $t->total_transaksi;} ?></h3>
+                            <h3><?php foreach($transaksi as $t){ echo $t->total_sales;} ?></h3>
                             <p>Transaksi Hari Ini</p>
                         </div>
                         <div class="icon">
@@ -60,7 +60,7 @@
                         <div class="inner">
                             <h3>
                                 <?php 
-                                        $bt = $barang_terjual->jumlah;
+                                        $bt = $barang_terjual->qty;
                                         if(empty($bt)){
                                             echo "0";
                                         }
@@ -91,22 +91,18 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Nama Barang</th>
-                                                <th>Kategori</th>
                                                 <th>Barang Terjual</th>
-                                                <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach($list as $item) { ?>
                                             <tr>
-                                                <td><?= $item->nama_barang; ?></td>
-                                                <td><?= $item->nama_kategori; ?></td>
-                                                <td><?= $item->jumlah; ?></td>
-                                                <td>Rp. <?= number_format($item->total, 0 , '' , '.' ) ?></td>
+                                                <td><?= $item->cname; ?></td>
+                                                <td><?= $item->qty; ?></td>
                                             </tr>
                                             <?php } ?>
                                         </tbody>
@@ -144,13 +140,13 @@
                                         <tbody>
                                             <?php foreach($stok as $s) { ?>
                                             <tr>
-                                                <td><?= $s->nama_barang; ?></td>
-                                                <td><?= $s->stok; ?></td>
+                                                <td><?= $s->cname; ?></td>
+                                                <td><?= $s->qty_stock; ?></td>
                                                 <td>
-                                                    <?php if ($s->stok >= 7 && $s->stok <= 10){?>
+                                                    <?php if ($s->qty_stock >= 7 && $s->qty_stock <= 10){?>
                                                     <i class="fa fa-circle text-info font-12" data-toggle="tooltip"
                                                         data-placement="top" title="Stok Mulai Menipis"></i>
-                                                    <?php } else if ($s->stok >= 5 && $s->stok <= 6){?>
+                                                    <?php } else if ($s->qty_stock >= 5 && $s->qty_stock <= 6){?>
                                                     <i class="fa fa-circle text-warning font-12" data-toggle="tooltip"
                                                         data-placement="top" title="Stok Sudah Menipis"></i></i>
                                                     <?php } else {?>

@@ -6,8 +6,8 @@ class Dashboard extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('m_transaksi');
-        $this->load->model('m_barang');
+        $this->load->model('m_transaksi_offline');
+        $this->load->model('m_product');
         if(empty($this->session->userdata('is_login')))
         {
 			redirect('Auth');
@@ -19,12 +19,12 @@ class Dashboard extends CI_Controller {
         $data = array(
             'title' => "Dashboard",
 
-			'barang' => $this->db->count_all('barang'),
-			'kategori' => $this->db->count_all('kategori'),
-            'transaksi' => $this->m_transaksi->total_transaksi(),
-            'barang_terjual' => $this->m_transaksi->total_barang_terjual(),
-            'list' => $this->m_transaksi->list_barang_terjual(),
-            'stok' => $this->m_barang->stok_menipis(),
+			'barang' => $this->db->count_all('wsproduct'),
+			'kategori' => $this->db->count_all('wsproduct_type'),
+            'transaksi' => $this->m_transaksi_offline->total_sales(),
+            'barang_terjual' => $this->m_transaksi_offline->total_barang_terjual(),
+            'list' => $this->m_transaksi_offline->list_barang_terjual(),
+            'stok' => $this->m_product->stok_menipis(),
 		);
         view('Dashboard/v_dashboard', $data);
     }

@@ -48,6 +48,43 @@ class m_transaksi_offline extends CI_Model {
         return $hasil->result();
     }
 
+    public function total_sales()
+    {
+        $now = date('Y-m-d');
+        $this->db->select('COUNT(seq) as total_sales');
+        $this->db->where('cdate', $now);
+        $hasil = $this->db->get('wssales');
+        return $hasil->result();
+    }    
+
+    public function total_barang_terjual()
+    {
+        $now = date('Y-m-d');        
+        $this->db->select_sum('sd.qty');
+        $this->db->from('wssales_detail as sd');
+        $this->db->join('wssales as s', 's.seq = sd.fid_sales');
+        $this->db->where('s.cdate', $now);
+        $hasil = $this->db->get()->row();
+        return $hasil;
+    }
+
+    public function list_barang_terjual()
+    {
+        $kemarin = date('Y-m-d', strtotime("-1 day", strtotime(date("Y-m-d"))));
+
+        $this->db->select('p.cname');
+        $this->db->select_sum('sd.qty');
+        $this->db->from('wssales_detail as sd');
+        $this->db->join('wsproduct as p', 'p.ccode = sd.fid_product');
+        $this->db->join('wssales as s', 's.seq = sd.fid_sales');
+        $this->db->where('s.cdate', $kemarin);        
+        $this->db->order_by('sd.qty', 'DESC');
+        $this->db->limit('5');
+        $this->db->group_by('p.cname');
+        $hasil = $this->db->get();
+        return $hasil->result();
+    }
+
     // function laporan_transaksi($bulan)
     // {
     //     $this->db->where('MONTH(tanggal_transaksi)', $bulan);
@@ -64,9 +101,9 @@ class m_transaksi_offline extends CI_Model {
     //     return $result;
     // }
 
-    // public function barang_terjual($bulan)
+   // public function barang_terjual($bulan)
     // {
-    //     $this->db->select('b.nama_barang, b.harga_jual, b.harga_beli');
+    //     // $this->db->select('b.nama_barang, b.harga_jual, b.harga_beli');
     //     $this->db->select_sum('dt.sub_harga_jual');
     //     $this->db->select_sum('dt.jumlah');
     //     $this->db->from('detail_transaksi as dt');
@@ -94,26 +131,9 @@ class m_transaksi_offline extends CI_Model {
     //     return $hasil;
     // }
 
-    // public function total_transaksi()
-    // {
-    //     $sekarang = date('Y-m-d');
-    //     $this->db->select('COUNT(kd_transaksi) as total_transaksi');
-    //     $this->db->where('tanggal_transaksi', $sekarang);
-    //     $hasil = $this->db->get('transaksi');
-    //     return $hasil->result();
-    // }
+    
 
-    // public function total_barang_terjual()
-    // {
-    //     $sekarang = date('Y-m-d');
-        
-    //     $this->db->select_sum('dt.jumlah');
-    //     $this->db->from('detail_transaksi as dt');
-    //     $this->db->join('transaksi as t', 't.kd_transaksi = dt.kd_transaksi');
-    //     $this->db->where('t.tanggal_transaksi', $sekarang);
-    //     $hasil = $this->db->get()->row();
-    //     return $hasil;
-    // }
+   
 
     // public function list_barang_terjual()
     // {

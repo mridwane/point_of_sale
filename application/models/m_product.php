@@ -87,6 +87,13 @@ class m_product extends CI_Model {
         return $query;  
     }
 
+    public function stok_menipis()
+    {
+        $this->db->where('qty_stock = qty_buffer');
+        $result = $this->db->get('wsproduct');
+        return $result->result();
+    }
+
     // public function get_nama($cname)
     // {
     //     $this->db->where('cname',$cname);
