@@ -74,6 +74,19 @@ class m_product extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    public function get_product($barcode)
+    {
+        $this->db->where('barcode',$barcode);
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
+    
+    function cek_stok(){
+        $this->db->where('stok <', 5);
+        $query = $this->db->get($this->table)->row();
+        return $query;  
+    }
+
     // public function get_nama($cname)
     // {
     //     $this->db->where('cname',$cname);
@@ -81,12 +94,7 @@ class m_product extends CI_Model {
     //     return $query->num_rows();
     // }
 
-    // public function get_barang($ccode)
-    // {
-    //     $this->db->where('ccode',$ccode);
-    //     $result = $this->db->get($this->table)->row();
-    //     return $result;
-    // }
+    
 
     // public function get_ccode($ccode)
     // {
@@ -95,11 +103,6 @@ class m_product extends CI_Model {
     //     return $query->num_rows();
     // }
 
-    // function cek_stok(){
-    //     $this->db->where('stok <', 5);
-    //     $query = $this->db->get($this->table)->row();
-    //     return $query;  
-    // }
     // function cek_stok_habis(){
     //     $this->db->where('stok <', 1);
     //     $query = $this->db->get($this->table)->row();

@@ -21,8 +21,7 @@
                             <div class="col-lg-3 col-sm-6">
                                 <h1 class="text-dark float-left">Total</h1>
                             </div>
-                            <div class="col-lg-9 col-sm-6">
-                                <h1 class="text-dark float-right font-weight-bold" id="total">Rp. 0</h1>
+                            <div class="col-lg-9 col-sm-6" id="grandtotal">
                             </div>
                         </div>
                     </div>
@@ -36,6 +35,19 @@
                     <div class="card-body">
                         <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
                         <div class="form-group">
+                            <input type="text" class="form-control custom-radius custom-shadow text-14" name="kd_barang"
+                                id="kd_barang" maxlength="255" placeholder="Masukan Barcode Kemudian Tekan Enter">
+                            <small id="hintkd_barang"
+                                class="badge badge-default form-text text-secondary float-right">*masukan Barcode
+                                kemudian tekan enter.</small>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-rounded float-left" id="kosong">Kosongkan Barcode</button>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
+                        <div class="form-group">
                             <select class="form-control anggota" name="anggota" id="anggota">
                                 <option value="" selected disabled>Pilih Tipe Pelanggan</option>
                                 <option value="anggota">Anggota</option>
@@ -43,42 +55,29 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input id="noAnggota" class="form-control" type="text" placeholder="Masukan Nomer Anggota..." hidden>
+                            <input id="member_number" name="member_number" class="form-control" type="text" placeholder="Masukan Nomer Anggota..." hidden>
                         </div>
-                        <div class="row">
+                        <div class="row show-member" Hidden>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Nama Anggota</label>
-                                    <input type="text" class="form-control" value="Ridwan" disabled="">
+                                    <input type="text" id="memberName" class="form-control" value="" disabled>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
                                     <label>Wilayah</label>
-                                    <input type="text" class="form-control" value="Pandeglang" disabled="">
+                                    <input type="text" id="memberArea" class="form-control" value="" disabled>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
-                        <div class="form-group">
-                            <input type="text" class="form-control custom-radius custom-shadow text-14" name="kd_barang"
-                                id="kd_barang" maxlength="255" placeholder="Masukan Kode Barang Kemudian Tekan Enter">
-                            <small id="hintkd_barang"
-                                class="badge badge-default form-text text-secondary float-right">*masukan kode barang
-                                kemudian tekan enter.</small>
-                        </div>
-                        <button type="button" class="btn btn-primary btn-rounded float-left" id="kosong">Kosongkan Kode
-                            Barang</button>
-                    </div>
-                </div>
+                </div>                
             </div>
 
             <div class="col-lg-5 col-sm-6">
-                <form action="<?= site_url()?>Transaksi/cetak_struk" method="post" target="_blank">
+                <form action="<?= site_url()?>Transaksi_offline/cetak_struk" method="post" target="_blank">
+                    <input type="number" name="memberId" id="memberId" value="" hidden>
                     <div class="card">
                         <div class="card-body">
                             <div class="row text-dark">
@@ -97,9 +96,9 @@
                                 </div>
                                 <div class="col-8">
                                     <div class="form-group">
-                                        <input type="text" class="form-control custom-radius custom-shadow text-14"
-                                            data-a-sign="Rp. " data-a-sep="." id="diskon" name="diskon" value="Rp.0"
-                                            maxlength="25" disabled>
+                                        <div class="form-group" id="discount">
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +109,7 @@
                                 <div class="col-8">
                                     <div class="form-group">
                                         <input type="text" class="form-control custom-radius custom-shadow text-14"
-                                            data-a-sign="Rp. " data-a-sep="." name="bayar" id="bayar" maxlength="25">
+                                            data-a-sign="Rp. " data-a-sep="." name="cash" id="cash" maxlength="25">
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +121,7 @@
                                     <!-- <h4 class="float-right" id="kembalian" name="kembalian">Rp. 0</h4> -->
                                     <div class="form-group">
                                         <input type="text" class="form-control custom-radius custom-shadow text-14"
-                                            id="kembalian" name="kembali" maxlength="25" readonly value="Rp. 0">
+                                            id="changes" name="changes" maxlength="25" readonly value="Rp. 0">
                                     </div>
                                 </div>
                             </div>
@@ -130,8 +129,7 @@
                             <div class="row text-dark">
                                 <div class="col-12">
                                     <button type="button" class="btn btn-danger btn-rounded" id="batal">Batal</button>
-                                    <input type="submit" class="btn btn-success btn-rounded" id="cetak" value="Cetak"
-                                        disabled='disabled'>
+                                    <input type="submit" class="btn btn-success btn-rounded" id="cetak" value="Cetak" disabled="disabled">
                                     <button type="button" class="btn btn-primary btn-rounded" id="selesai"
                                         disabled='disabled'>Selesai</button>
                                 </div>
@@ -154,6 +152,8 @@
                                         <th>Nama Barang</th>
                                         <th>Harga</th>
                                         <th>Jumlah</th>
+                                        <th>Diskon Peritem</th>
+                                        <th>Total Diskon</th>
                                         <th>Subtotal</th>
                                         <th>Aksi</th>
 
@@ -189,6 +189,6 @@
     <script src="<?= base_url(); ?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
     {{-- custom js --}}
-    <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-transaksi.js"></script>
+    <script src="<?= base_url(); ?>assets/dist/js-custom/fungsi-transaksi_offline.js"></script>
     <script src="<?= base_url(); ?>assets/dist/autoNumeric/autoNumeric.js"></script>
 @endsection

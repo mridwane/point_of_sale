@@ -75,7 +75,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= site_url()?>Transaksi" class="nav-link <?php if(isset($title)) if($title == 'Transaksi Offline') echo "active";?>">
+                    <a href="<?= site_url()?>Transaksi_offline" class="nav-link <?php if(isset($title)) if($title == 'Transaksi Offline') echo "active";?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Trannsaksi Offline

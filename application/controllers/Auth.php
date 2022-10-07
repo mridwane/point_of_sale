@@ -7,7 +7,7 @@ class Auth extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('m_users');
-		
+		$this->load->model('m_company');
 	}
 
 	public function index()
@@ -71,6 +71,7 @@ class Auth extends CI_Controller {
 		$password = html_escape(md5($this->input->post('password')));
 
 		$data = $this->m_users->get_users($clogin);
+		$company = $this->m_company->get_company();
 		if(empty($data))
 		{
 			$this->session->set_flashdata('flash', 'username salah');
@@ -92,7 +93,10 @@ class Auth extends CI_Controller {
 					
 					$this->session->set_userdata('seq', $seq);
 					$this->session->set_userdata('cname', $data->cname);		
-					$this->session->set_userdata('clogin', $clogin);		
+					$this->session->set_userdata('clogin', $clogin);	
+					$this->session->set_userdata('company_name', $company->cname);
+					$this->session->set_userdata('company_address', $company->caddress);
+					$this->session->set_userdata('company_city', $company->city);
 					$this->session->set_userdata('is_login',TRUE);	
 					redirect('Dashboard');				
 				}

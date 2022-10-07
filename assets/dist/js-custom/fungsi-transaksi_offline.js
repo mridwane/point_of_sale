@@ -2,7 +2,7 @@ var table;
 $(document).ready(function(){
     // list_data(); //call function show all product  
     $('#diskon').autoNumeric('init' ,{aSep: '.', aDec: ',', mDec: '0'});
-    $('#bayar').autoNumeric('init' ,{aSep: '.', aDec: ',', mDec: '0'});
+    $('#cash').autoNumeric('init' ,{aSep: '.', aDec: ',', mDec: '0'});
     
     $('#kd_barang').focus();
 
@@ -16,7 +16,7 @@ $(document).ready(function(){
         "order": [], 
          
         "ajax": {
-            "url": "Transaksi/list_cart",
+            "url": "Transaksi_offline/list_cart",
             "type": "POST"
         },
 
@@ -35,7 +35,9 @@ $(document).ready(function(){
         table.ajax.reload(null,false); //reload datatable ajax 
     }
     
-    $('#subtotal').load("Transaksi/load_total");
+    $('#subtotal').load("Transaksi_offline/load_subtotal");
+    $('#discount').load("Transaksi_offline/load_discount");
+    $('#grandtotal').load("Transaksi_offline/load_grandtotal");
 
     $("#kosong").click(function()
     {
@@ -44,7 +46,6 @@ $(document).ready(function(){
         $('#kd_barang').removeClass('is-invalid');
         $('#hintkd_barang').removeClass('text-danger');
         $('#hintkd_barang').addClass('text-secondary');
-
         $('#hintkd_barang').text("*masukan kode barang kemudian tekan enter.");
     });
 
@@ -59,7 +60,7 @@ $(document).ready(function(){
             if(keycode == '13'){
                 $.ajax({
                     type: "POST",
-                    url: "Transaksi/cek_stok",
+                    url: "Transaksi_offline/cek_stok",
                     data: $(this).serialize(),
                     success: function (data){
                         // console.log(data);
@@ -87,7 +88,7 @@ $(document).ready(function(){
                             else
                             {
                                 $.ajax({
-                                    url : "Transaksi/add_cart",
+                                    url : "Transaksi_offline/add_cart",
                                     type: "POST",
                                     data: {kd_barang:kd_barang},
                                     dataType: "JSON",
@@ -98,11 +99,13 @@ $(document).ready(function(){
                                         $('#hintkd_barang').addClass('text-muted');
                                         $('#hintkd_barang').text("*masukan kode barang kemudian tekan enter.");
                                         reload_table();
-                                        $('#subtotal').load("Transaksi/load_total");                        
+                                        $('#subtotal').load("Transaksi_offline/load_subtotal");  
+                                        $('#discount').load("Transaksi_offline/load_discount");  
+                                        $('#grandtotal').load("Transaksi_offline/load_grandtotal");                    
                                         $("#kd_barang").val(""); 
                                         $("#kd_barang").focus();
-                                        $("#bayar").val(""); 
-                                        $('#kembalian').val('Rp. 0');  
+                                        $("#cash").val(""); 
+                                        $('#kembalian').val('Rp. 0');                                          
                                     },
                                     error: function()
                                     {
@@ -153,12 +156,14 @@ $(document).ready(function(){
          
         $.ajax({
             type : "POST",
-            url  : "Transaksi/remove_item",
+            url  : "Transaksi_offline/remove_item",
             dataType : "JSON",
             data : {kd_barang:kd_barang},
             success: function(data){
                   reload_table();
-                  $('#subtotal').load("Transaksi/load_total");
+                  $('#subtotal').load("Transaksi_offline/load_subtotal");
+                  $('#discount').load("Transaksi_offline/load_discount");
+                  $('#grandtotal').load("Transaksi_offline/load_grandtotal");
                   $("#kd_barang").focus();
                   $("#total").text("Rp. 0");
             }
@@ -166,101 +171,25 @@ $(document).ready(function(){
         return false;
     });
 
-    $("#diskon").focusin(function()
-    {
-        // $('#cetak').removeAttr("hidden");
-        $('#cetak').attr("disabled", "disabled");
-    });
-
-    $("#diskon").keypress(function(event)
-    {
-        this.value = this.value.replace(/\s/g, ""); //untuk mencegah spasi
+    $('#cash').keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if(keycode == '13')
         {
-            var subtotal= $("#subtotalval").val();
-            var diskon= $("#diskon").val();
-            var subtotalint = Number(subtotal.replace(/[^0-9-]+/g,""));
-            var diskonint = Number(diskon.replace(/[^0-9-]+/g,""));
-            var hasil = Number(subtotalint-diskonint);
-            var output = hasil.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-            $("#total").text('Rp. '+output);
-            $('#bayar').focus();
-            event.preventDefault();
-        }  
-    });
-
-    $("#diskon").focusout(function(event)
-    {
-        this.value = this.value.replace(/\s/g, ""); //untuk mencegah spasi
-        var subtotal= $("#subtotalval").val();
-        var diskon= $("#diskon").val();
-        var subtotalint = Number(subtotal.replace(/[^0-9-]+/g,""));
-        var diskonint = Number(diskon.replace(/[^0-9-]+/g,""));
-        var hasil = Number(subtotalint-diskonint);
-        var output = hasil.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-        $("#total").text('Rp. '+output);
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13')
-        {
-            $('#bayar').focus();
-            event.preventDefault();
-        }
-    });
-    
-    $("#bayar").focusin(function()
-    {
-        // $('#cetak').removeAttr("hidden");
-        $('#cetak').attr("disabled", "disabled");
-        var subtotal= $("#subtotalval").val();
-        var diskon= $("#diskon").val();
-        var subtotalint = Number(subtotal.replace(/[^0-9-]+/g,""));
-        var diskonint = Number(diskon.replace(/[^0-9-]+/g,""));
-        var hasil = Number(subtotalint-diskonint);
-        var output = hasil.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-        $("#total").text('Rp. '+output);
-        $('#bayar').focus();
-        event.preventDefault();
-    });
-
-    $('#bayar').keypress(function(event){
-        var currency = $('#total').text();
-        var getbayar = $('#bayar').val();
-        var bayar = Number(getbayar.replace(/[^0-9-]+/g,""));
-        var total = Number(currency.replace(/[^0-9-]+/g,""));
-        var hasil = Number(bayar-total);
-        var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13')
-        {
-            // var output = (hasil/1000).toFixed(3);
-            var output = hasil.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-            $('#kembalian').val('Rp. '+output);
-            event.preventDefault();
+            // $('#cetak').attr("disabled", "disabled");
+            var cashstring= $("#cash").val();
+            var pay= $("#pay").val();            
+            var cash = Number(cashstring.replace(/[^0-9-]+/g,""));
+            var changes = Number(cash-pay);
+            $("#changes").val('Rp. '+changes);
             $('#cetak').removeAttr('disabled');
-            $('#cetak').focus();
-            event.preventDefault();
-            // 
+            // $('#cetak').focus();
         }
-    });
-
-    $('#bayar').focusout(function(event){
-        var currency = $('#total').text();
-        var getbayar = $('#bayar').val();
-        var bayar = Number(getbayar.replace(/[^0-9-]+/g,""));
-        var total = Number(currency.replace(/[^0-9-]+/g,""));
-        var hasil = Number(bayar-total);
-        // var output = (hasil/1000).toFixed(3);
-        var output = hasil.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-        $('#kembalian').val('Rp. '+output);
-        event.preventDefault();
-        $('#cetak').removeAttr('disabled');
-        $('#cetak').focus();
     });
 
     $('#selesai').click(function(){
         $('#kembalian').val('Rp. 0');
         $('#diskon').val("");
-        $('#bayar').val("");
+        $('#cash').val("");
         $('#total').text("Rp. 0");
         $('#diskon').val("Rp. 0");
         $('#cetak').removeAttr("hidden");
@@ -271,11 +200,13 @@ $(document).ready(function(){
 
         $.ajax({
             type : "POST",
-            url  : "Transaksi/remove_all",
+            url  : "Transaksi_offline/remove_all",
             dataType : "JSON",
             success: function(data){
                   reload_table();
-                  $('#subtotal').load("Transaksi/load_total");
+                  $('#subtotal').load("Transaksi_offline/load_subtotal");
+                  $('#discount').load("Transaksi_offline/load_discount");
+                  $('#grandtotal').load("Transaksi_offline/load_grandtotal");
                   $("#kd_barang").focus();
 
                   Swal.fire(
@@ -293,16 +224,27 @@ $(document).ready(function(){
         $('#cetak').attr("hidden", "hidden");
         $('#kd_barang').attr("disabled", "disabled");
         $('#batal').attr("disabled", "disabled");
-        // var diskon = $('#diskon').val();
-        // var bayar = $('#bayar').val();
-        // var kembali = $('#kembalian').val();
+        // var discountString = $('#discountval').val();
+        // var discount = Number(discountString.replace(/[^0-9-]+/g,""));
+        // var cashString= $("#cash").val();
+        // var pay= $("#pay").val();            
+        // var cash = Number(cashString.replace(/[^0-9-]+/g,""));
+        // var changesString= $("#changes").val(); 
+        // var changes = Number(changesString.replace(/[^0-9-]+/g,""));
+        // console.log(discount)
+        // console.log(pay)
+        // console.log(cash)
+        // console.log(changes)
+        // // var bayar = $('#cash').val();
+        // // var kembali = $('#kembalian').val();
         // var link = $(this).attr('http://localhost/pos/Transaksi/cetak_struk');
         // window.open(link, '_blank');
+
         // $.ajax({
         //     type : "POST",
-        //     url  : "Transaksi/cetak_struk",
+        //     url  : "Transaksi_offline/cetak_struk",
         //     dataType : "JSON",
-        //     data : {diskon:diskon, bayar:bayar, kembali:kembali},
+        //     data : {discount:discount, pay:pay, cash:cash, changes:changes},
         //     success: function(data){
                 
         //     }
@@ -312,16 +254,18 @@ $(document).ready(function(){
     $('#batal').click(function(){
         $('#cetak').attr("disabled", "disabled");
         $('#kembalian').val('Rp. 0');
-        $('#bayar').val("");
+        $('#cash').val("");
         $('#total').text("Rp. 0");
          
         $.ajax({
             type : "POST",
-            url  : "Transaksi/remove_all",
+            url  : "Transaksi_offline/remove_all",
             dataType : "JSON",
             success: function(data){
                   reload_table();
-                  $('#subtotal').load("Transaksi/load_total");
+                  $('#subtotal').load("Transaksi_offline/load_subtotal");
+                  $('#discount').load("Transaksi_offline/load_discount");
+                  $('#grandtotal').load("Transaksi_offline/load_grandtotal");
                   $("#kd_barang").focus();
             }
         });
@@ -332,11 +276,41 @@ $(document).ready(function(){
         var selected = $(this).children("option:selected").val();
         // console.log(selected)
         if(selected == "anggota"){
-            $("#noAnggota").removeAttr("hidden")
+            $("#member_number").removeAttr("hidden")
+            $(".show-member").removeAttr("hidden")
         }
         else{
-            $("#noAnggota").attr("hidden", true)
+            $("#member_number").attr("hidden", true)
+            $(".show-member").attr("hidden", true)
         }
+    });
+
+    $("#member_number").keypress(function(event)
+    {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if(keycode == '13'){
+        // console.log($(this).serialize())
+        $.ajax({
+                url : "Transaksi_offline/get_member",
+                type: "POST",
+                data: $(this).serialize(),
+                dataType:'JSON',
+                success: function(data)
+                {
+                    $("#memberId").val(data.member_id);  
+                    $("#memberName").val(data.member_name);      
+                    $("#memberArea").val(data.member_area);  
+                },
+                error: function()
+                {
+                    Swal.fire(
+                        'Kosong',
+                        'Data Anggota Tidak Ada.',
+                        'warning'
+                        )
+                },
+            });     
+        }    
     });
 
    
