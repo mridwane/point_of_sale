@@ -187,11 +187,16 @@ $(document).ready(function(){
     });
 
     $('#selesai').click(function(){
-        $('#kembalian').val('Rp. 0');
-        $('#diskon').val("");
         $('#cash').val("");
         $('#total').text("Rp. 0");
         $('#diskon').val("Rp. 0");
+        $('#changes').val("Rp. 0");
+        $('#anggota select').removeAttr('selected').filter('[value=no-option]').attr('selected', true);
+        $('.show-member').attr("hidden", "hidden");
+        $('#member_number').attr("hidden", "hidden");
+        $('#member_number').val("");
+        $('#memberName').val("");
+        $('#memberArea').val("");
         $('#cetak').removeAttr("hidden");
         $('#batal').removeAttr("disabled");
         $('#kd_barang').removeAttr("disabled");

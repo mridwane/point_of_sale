@@ -49,7 +49,7 @@
                         <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
                         <div class="form-group">
                             <select class="form-control anggota" name="anggota" id="anggota">
-                                <option value="" selected disabled>Pilih Tipe Pelanggan</option>
+                                <option value="no-option" selected disabled>Pilih Tipe Pelanggan</option>
                                 <option value="anggota">Anggota</option>
                                 <option value="non-anggota">Non Anggota</option>
                             </select>
