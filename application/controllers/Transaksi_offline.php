@@ -213,9 +213,9 @@ class Transaksi_offline extends CI_Controller {
             'ufd' => $ufd,
         );
         $transac_save = $this->m_transaksi_offline->save_transaksi($wssales);
-        
-        $seqmax = $this->m_transaksi_offline->get_seqmax(); 
-        $fid_sales = $seqmax->seq;        
+        $fid_sales = $this->db->insert_id();
+        // $seqmax = $this->m_transaksi_offline->get_seqmax(); 
+        // $fid_sales = $seqmax->seq;        
 
         // simpan ke wssales_detail
         foreach ($this->cart->contents() as $item)

@@ -191,7 +191,7 @@ $(document).ready(function(){
         $('#total').text("Rp. 0");
         $('#diskon').val("Rp. 0");
         $('#changes').val("Rp. 0");
-        $('#anggota select').removeAttr('selected').filter('[value=no-option]').attr('selected', true);
+        $("#anggota").val(0);
         $('.show-member').attr("hidden", "hidden");
         $('#member_number').attr("hidden", "hidden");
         $('#member_number').val("");
@@ -201,6 +201,7 @@ $(document).ready(function(){
         $('#batal').removeAttr("disabled");
         $('#kd_barang').removeAttr("disabled");
         $('#cetak').attr("disabled", "disabled");
+        $('#cash').attr("disabled", "disabled");
         $('#selesai').attr("disabled", "disabled");
 
         $.ajax({
@@ -279,6 +280,7 @@ $(document).ready(function(){
 
     $("#anggota").change(function(){
         var selected = $(this).children("option:selected").val();
+        
         // console.log(selected)
         if(selected == "anggota"){
             $("#member_number").removeAttr("hidden")
@@ -288,6 +290,7 @@ $(document).ready(function(){
             $("#member_number").attr("hidden", true)
             $(".show-member").attr("hidden", true)
         }
+        $("#cash").removeAttr("disabled")
     });
 
     $("#member_number").keypress(function(event)

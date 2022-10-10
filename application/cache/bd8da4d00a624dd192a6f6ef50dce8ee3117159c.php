@@ -49,7 +49,7 @@
                         <!-- <h6 class="card-title">Masukan Kode Barang</h6> -->
                         <div class="form-group">
                             <select class="form-control anggota" name="anggota" id="anggota">
-                                <option value="" selected disabled>Pilih Tipe Pelanggan</option>
+                                <option value="0" selected disabled hidden>Pilih Tipe Pelanggan</option>
                                 <option value="anggota">Anggota</option>
                                 <option value="non-anggota">Non Anggota</option>
                             </select>
@@ -109,7 +109,7 @@
                                 <div class="col-8">
                                     <div class="form-group">
                                         <input type="text" class="form-control custom-radius custom-shadow text-14"
-                                            data-a-sign="Rp. " data-a-sep="." name="cash" id="cash" maxlength="25">
+                                            data-a-sign="Rp. " data-a-sep="." name="cash" id="cash" maxlength="25" disabled>
                                     </div>
                                 </div>
                             </div>
