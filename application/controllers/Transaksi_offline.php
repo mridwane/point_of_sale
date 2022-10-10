@@ -33,6 +33,7 @@ class Transaksi_offline extends CI_Controller {
             'name' => $data->cname,
             'qty'     => 1,
             'price'   => $data->price,
+            'barcode' => $data->barcode,
             'discount' => $data->discount,
             
         );
@@ -68,7 +69,7 @@ class Transaksi_offline extends CI_Controller {
 			$row[] = $no;
 			$row[] = $items["name"];
 			$row[] = 'Rp. ' . number_format( $items['price'], 0 , '' , '.' );
-			$row[] = '<b id="'.$items['id'].'">'.$items["qty"].'</b>';
+			$row[] = '<b id="'.$items['barcode'].'">'.$items["qty"].'</b>';
             $row[] = 'Rp. ' . number_format( $items['discount'], 0 , '' , '.' );
             $row[] = 'Rp. ' . number_format( $total_discount, 0 , '' , '.' );
             $row[] = 'Rp. ' . number_format( $items['subtotal'] - $total_discount, 0 , '' , '.' );
@@ -134,7 +135,10 @@ class Transaksi_offline extends CI_Controller {
     {
         $ccode = html_escape($this->input->post('kd_barang'));
 		$data = $this->m_product->get_product($ccode);
-		echo $data->stok;
+		$stock = $data->qty_stock;
+        $buffer = $data->qty_buffer;
+        $results = $stock - $buffer;
+        echo $results;
     }
 
     public function get_member()
@@ -157,9 +161,7 @@ class Transaksi_offline extends CI_Controller {
         {
             echo $items['qty'];
         }
-    }
-
-    
+    }    
 
     public function cetak_struk(){
         $cname = $this->session->userdata('cname');

@@ -53,7 +53,7 @@ $(document).ready(function(){
     {
         this.value = this.value.replace(/\s/g, ""); //untuk mencegah spasi
         var validasiHuruf = /^[a-zA-Z0-9 ]+$/;
-        var kd_barang = $('#kd_barang').val();
+        var kd_barang = $('#kd_barang').val();        
         if(kd_barang.match(validasiHuruf))
         {
             var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -64,24 +64,25 @@ $(document).ready(function(){
                     data: $(this).serialize(),
                     success: function (data){
                         // console.log(data);
-                        var stok = data;
-                        if(data=="0")
+                        var stock = data;
+                        if(stock == 0 )
                         {
                             Swal.fire(
                                 'Barang kosong!',
-                                'Sepertinya stok barang habis',
+                                'Sepertinya stok barang yang anda inputkan sudah kosong',
                                 'warning'
                                 )
                         }
                         else
                         {
-                            var jumlah = $('#'+kd_barang).text();
-                            console.log(jumlah);
-                            if(jumlah == stok)
+                            var str_qty = $('#'+kd_barang).text();
+                            let qty = Number(str_qty) + 1;
+                            // console.log(qty);
+                            if(qty > stock)
                             {
                                 Swal.fire(
                                     'Stok habis!',
-                                    'Sepertinya stok barang habis',
+                                    'Sepertinya stok barang yang anda inputkan habis',
                                     'info'
                                     )
                             }
