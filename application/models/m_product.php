@@ -89,7 +89,7 @@ class m_product extends CI_Model {
 
     public function stok_menipis()
     {
-        $this->db->where('qty_stock = qty_buffer');
+        $this->db->where('(qty_stock - qty_buffer) <=', 10);
         $result = $this->db->get('wsproduct');
         return $result->result();
     }

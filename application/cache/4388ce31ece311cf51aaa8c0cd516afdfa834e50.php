@@ -125,7 +125,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title"><b>List Stok Barang Kurang dari 10</b></h3>
+                                    <h3 class="card-title"><b>List Stok Product Kurang dari 10</b></h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -138,20 +138,24 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach($stok as $s) { ?>
+                                            <?php foreach($stok as $s) { 
+                                                $stock = $s->qty_stock;
+                                                $buffer = $s->qty_buffer;
+                                                $result_stock = $stock - $buffer;
+                                            ?>
                                             <tr>
                                                 <td><?= $s->cname; ?></td>
-                                                <td><?= $s->qty_stock; ?></td>
+                                                <td><?= $result_stock; ?></td>
                                                 <td>
-                                                    <?php if ($s->qty_stock >= 7 && $s->qty_stock <= 10){?>
-                                                    <i class="fa fa-circle text-info font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="Stok Mulai Menipis"></i>
-                                                    <?php } else if ($s->qty_stock >= 5 && $s->qty_stock <= 6){?>
+                                                    <?php if ($result_stock >= 7 && $result_stock <= 10){?>
+                                                    <i class="fa fa-circle text-success font-12" data-toggle="tooltip"
+                                                        data-placement="top" title="Stok <?= $s->cname; ?> Mulai Menipis"></i>
+                                                    <?php } else if ($result_stock >= 1 && $result_stock <= 6){?>
                                                     <i class="fa fa-circle text-warning font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="Stok Sudah Menipis"></i></i>
+                                                        data-placement="top" title="Stok <?= $s->cname; ?> Sangat Kurang"></i></i>
                                                     <?php } else {?>
-                                                    <i class="fa fa-circle text-danger font-12" data-toggle="tooltip"
-                                                        data-placement="top" title="Stok Sudah Sangat Menipis"></i>
+                                                        <i class="fa fa-circle text-danger font-12" data-toggle="tooltip"
+                                                        data-placement="top" title="Stok <?= $s->cname; ?> Sudah Habis"></i>
                                                     <?php }?>
                                                 </td>
                                             </tr>
