@@ -172,6 +172,7 @@ class Transaksi_offline extends CI_Controller {
         $tanggal = date('d/m/y');
         $waktu = date('H:i:s');
         $ufd = date("Y-m-d H:i:s");
+        $tgl_struk = date("d-m-Y H:i:s");
         
         $checkMemberID = $this->input->post('memberId');
         if (empty($checkMemberID)){
@@ -245,27 +246,30 @@ class Transaksi_offline extends CI_Controller {
         $printer = new Escpos\Printer($connector);
 
         // membuat fungsi untuk membuat 1 baris tabel, agar dapat dipanggil berkali-kali dgn mudah
-        function buatBaris4Kolom($kolom1, $kolom2, $kolom3, $kolom4) {
+        function buatBaris5Kolom($kolom1, $kolom2, $kolom3, $kolom4, $kolom5) {
             // Mengatur lebar setiap kolom (dalam satuan karakter)
             $lebar_kolom_1 = 12;
-            $lebar_kolom_2 = 8;
-            $lebar_kolom_3 = 8;
-            $lebar_kolom_4 = 9;
+            $lebar_kolom_2 = 4;
+            $lebar_kolom_3 = 7;
+            $lebar_kolom_4 = 6;
+            $lebar_kolom_5 = 9;
 
             // Melakukan wordwrap(), jadi jika karakter teks melebihi lebar kolom, ditambahkan \n 
             $kolom1 = wordwrap($kolom1, $lebar_kolom_1, "\n", true);
             $kolom2 = wordwrap($kolom2, $lebar_kolom_2, "\n", true);
             $kolom3 = wordwrap($kolom3, $lebar_kolom_3, "\n", true);
             $kolom4 = wordwrap($kolom4, $lebar_kolom_4, "\n", true);
+            $kolom5 = wordwrap($kolom5, $lebar_kolom_5, "\n", true);
 
             // Merubah hasil wordwrap menjadi array, kolom yang memiliki 2 index array berarti memiliki 2 baris (kena wordwrap)
             $kolom1Array = explode("\n", $kolom1);
             $kolom2Array = explode("\n", $kolom2);
             $kolom3Array = explode("\n", $kolom3);
             $kolom4Array = explode("\n", $kolom4);
+            $kolom5Array = explode("\n", $kolom5);
 
             // Mengambil jumlah baris terbanyak dari kolom-kolom untuk dijadikan titik akhir perulangan
-            $jmlBarisTerbanyak = max(count($kolom1Array), count($kolom2Array), count($kolom3Array), count($kolom4Array));
+            $jmlBarisTerbanyak = max(count($kolom1Array), count($kolom2Array), count($kolom3Array), count($kolom4Array), count($kolom5Array));
 
             // Mendeklarasikan variabel untuk menampung kolom yang sudah di edit
             $hasilBaris = array();
@@ -280,9 +284,10 @@ class Transaksi_offline extends CI_Controller {
                 // memberikan rata kanan pada kolom 3 dan 4 karena akan kita gunakan untuk harga dan total harga
                 $hasilKolom3 = str_pad((isset($kolom3Array[$i]) ? $kolom3Array[$i] : ""), $lebar_kolom_3, " ", STR_PAD_LEFT);
                 $hasilKolom4 = str_pad((isset($kolom4Array[$i]) ? $kolom4Array[$i] : ""), $lebar_kolom_4, " ", STR_PAD_LEFT);
+                $hasilKolom5 = str_pad((isset($kolom5Array[$i]) ? $kolom5Array[$i] : ""), $lebar_kolom_5, " ", STR_PAD_LEFT);
 
                 // Menggabungkan kolom tersebut menjadi 1 baris dan ditampung ke variabel hasil (ada 1 spasi disetiap kolom)
-                $hasilBaris[] = $hasilKolom1 . " " . $hasilKolom2 . " " . $hasilKolom3 . " " . $hasilKolom4;
+                $hasilBaris[] = $hasilKolom1 . " " . $hasilKolom2 . " " . $hasilKolom3 . " " . $hasilKolom4 . " " . $hasilKolom5;
             }
 
             // Hasil yang berupa array, disatukan kembali menjadi string dan tambahkan \n disetiap barisnya.
@@ -293,36 +298,52 @@ class Transaksi_offline extends CI_Controller {
         $printer->initialize();
         $printer->selectPrintMode(Escpos\Printer::MODE_DOUBLE_HEIGHT); // Setting teks menjadi lebih besar
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER); // Setting teks menjadi rata tengah
-        $printer->text("Nama Toko\n");
+        $printer->text($company_name."\n");
+        $printer->initialize();
+        $printer->text($company_address."\n");
         $printer->text("\n");
 
         // Data transaksi
         $printer->initialize();
-        $printer->text("Kasir : Badar Wildanie\n");
-        $printer->text("Waktu : 13-10-2019 19:23:22\n");
+        $printer->text("Casher : ".$cname."\n");
+        $printer->text("Date : ".$tgl_struk."\n");
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
-        $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom("Barang", "qty", "Harga", "Subtotal"));
-        $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom("Makaroni 250gr", "2pcs", "15.000", "30.000"));
-        $printer->text(buatBaris4Kolom("Telur", "2pcs", "5.000", "10.000"));
-        $printer->text(buatBaris4Kolom("Tepung terigu", "1pcs", "8.200", "16.400"));
-        $printer->text("----------------------------------------\n");
-        $printer->text(buatBaris4Kolom('', '', "Total", "56.400"));
+        $printer->selectPrintMode(Escpos\Printer::MODE_FONT_B);
+        $printer->text("------------------------------------------\n");
+        $printer->text(buatBaris5Kolom("Product", "qty", "Price", "Disc", "Subtotal"));
+        $printer->text("------------------------------------------\n");
+
+        $total_discount = 0;
+        foreach ($this->cart->contents() as $a)
+        {
+            $total_discount_prod = $a['discount'] * $a["qty"];
+            $total_discount += $a['discount'] * $a["qty"];
+            $sub_total = $a['subtotal'] - $total_discount_prod;
+            $printer->text(buatBaris5Kolom($a['name'], $a['qty'], $a['price'], $total_discount_prod, $sub_total));
+        }
+
+        $subtotal = $this->cart->total();
+        $gp = $subtotal - $total_discount;
+        
+        $printer->text("------------------------------------------\n");
+        $printer->text(buatBaris5Kolom('', '', '', "Total", $gp));
+        $printer->text(buatBaris5Kolom('', '', '', "Cash", $convertCash));
+        $printer->text(buatBaris5Kolom('', '', '', "Refund", $convertChanges));
         $printer->text("\n");
 
          // Pesan penutup
         $printer->initialize();
         $printer->setJustification(Escpos\Printer::JUSTIFY_CENTER);
         $printer->text("Terima kasih telah berbelanja\n");
-        $printer->text("http://badar-blog.blogspot.com\n");
 
-        $printer->feed(5); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
+        $printer->feed(3); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
         $printer->close();
+
+        
     }
     
- 
+    
 
 }
