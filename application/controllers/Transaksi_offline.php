@@ -305,14 +305,14 @@ class Transaksi_offline extends CI_Controller {
 
         // Data transaksi
         $printer->initialize();
-        $printer->text("Casher : ".$cname."\n");
+        $printer->text("Cashier : ".$cname."\n");
         $printer->text("Date : ".$tgl_struk."\n");
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
         $printer->selectPrintMode(Escpos\Printer::MODE_FONT_B);
         $printer->text("------------------------------------------\n");
-        $printer->text(buatBaris5Kolom("Product", "qty", "Price", "Disc", "Subtotal"));
+        $printer->text(buatBaris5Kolom("Product", "Qty", "Price", "Disc", "Subtotal"));
         $printer->text("------------------------------------------\n");
 
         $total_discount = 0;
