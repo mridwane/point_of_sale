@@ -198,12 +198,14 @@ $(document).ready(function(){
         $('#member_number').val("");
         $('#memberName').val("");
         $('#memberArea').val("");
+        $("#memberId").val(""); 
         $('#cetak').removeAttr("hidden");
         $('#batal').removeAttr("disabled");
         $('#kd_barang').removeAttr("disabled");
         $('#cetak').attr("disabled", "disabled");
         $('#cash').attr("disabled", "disabled");
         $('#selesai').attr("disabled", "disabled");
+        $('#kd_barang').focus();
 
         $.ajax({
             type : "POST",
@@ -231,6 +233,7 @@ $(document).ready(function(){
         $('#cetak').attr("hidden", "hidden");
         $('#kd_barang').attr("disabled", "disabled");
         $('#batal').attr("disabled", "disabled");
+        $('#selesai').focus();
         // var discountString = $('#discountval').val();
         // var discount = Number(discountString.replace(/[^0-9-]+/g,""));
         // var cashString= $("#cash").val();
@@ -263,6 +266,13 @@ $(document).ready(function(){
         $('#kembalian').val('Rp. 0');
         $('#cash').val("");
         $('#total').text("Rp. 0");
+        $('.show-member').attr("hidden", "hidden");
+        $('#member_number').attr("hidden", "hidden");
+        $('#member_number').val("");
+        $('#memberName').val("");
+        $('#memberArea').val("");
+        $("#memberId").val(""); 
+        $('#kd_barang').focus();
          
         $.ajax({
             type : "POST",
@@ -279,19 +289,26 @@ $(document).ready(function(){
         return false;
     });
 
-    $("#anggota").change(function(){
+    $("#anggota").change(function(event){
         var selected = $(this).children("option:selected").val();
         
         // console.log(selected)
         if(selected == "anggota"){
             $("#member_number").removeAttr("hidden")
-            $(".show-member").removeAttr("hidden")
+            $(".show-member").removeAttr("hidden")    
+            $("#cash").attr("disabled", true)        
         }
         else{
             $("#member_number").attr("hidden", true)
             $(".show-member").attr("hidden", true)
+            $("#memberId").val("")
+            $("#member_number").val("")
+            $("#memberName").val("")      
+            $("#memberArea").val("")  
+            $("#cash").removeAttr("disabled")
+            $('#cash').focus()
         }
-        $("#cash").removeAttr("disabled")
+        
     });
 
     $("#member_number").keypress(function(event)
@@ -309,6 +326,8 @@ $(document).ready(function(){
                     $("#memberId").val(data.member_id);  
                     $("#memberName").val(data.member_name);      
                     $("#memberArea").val(data.member_area);  
+                    $("#cash").removeAttr("disabled")
+                    $('#cash').focus()
                 },
                 error: function()
                 {

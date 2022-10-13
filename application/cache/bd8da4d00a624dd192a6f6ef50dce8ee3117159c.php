@@ -76,7 +76,8 @@
             </div>
 
             <div class="col-lg-5 col-sm-6">
-                <form action="<?= site_url()?>Transaksi_offline/cetak_struk" method="post" target="_blank">
+                <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+                <form action="<?= site_url()?>Transaksi_offline/cetak_struk" method="post" target="hiddenFrame">
                     <input type="number" name="memberId" id="memberId" value="" hidden>
                     <div class="card">
                         <div class="card-body">
