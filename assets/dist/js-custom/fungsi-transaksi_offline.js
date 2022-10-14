@@ -174,16 +174,14 @@ $(document).ready(function(){
 
     $('#cash').keypress(function(event){
         var keycode = (event.keyCode ? event.keyCode : event.which);
-        if(keycode == '13')
-        {
-            // $('#cetak').attr("disabled", "disabled");
+        if(keycode == '13') {
             var cashstring= $("#cash").val();
             var pay= $("#pay").val();            
             var cash = Number(cashstring.replace(/[^0-9-]+/g,""));
             var changes = Number(cash-pay);
             $("#changes").val('Rp. '+changes);
-            $('#cetak').removeAttr('disabled');
-            // $('#cetak').focus();
+            $('#cetak').removeAttr('disabled');            
+
         }
     });
 
@@ -233,7 +231,7 @@ $(document).ready(function(){
         $('#cetak').attr("hidden", "hidden");
         $('#kd_barang').attr("disabled", "disabled");
         $('#batal').attr("disabled", "disabled");
-        $('#selesai').focus();
+        $("#selesai").focus();
         // var discountString = $('#discountval').val();
         // var discount = Number(discountString.replace(/[^0-9-]+/g,""));
         // var cashString= $("#cash").val();
@@ -266,6 +264,8 @@ $(document).ready(function(){
         $('#kembalian').val('Rp. 0');
         $('#cash').val("");
         $('#total').text("Rp. 0");
+        $("#anggota").val(0);
+        $('#cash').attr("disabled", "disabled");
         $('.show-member').attr("hidden", "hidden");
         $('#member_number').attr("hidden", "hidden");
         $('#member_number').val("");
@@ -279,11 +279,16 @@ $(document).ready(function(){
             url  : "Transaksi_offline/remove_all",
             dataType : "JSON",
             success: function(data){
-                  reload_table();
-                  $('#subtotal').load("Transaksi_offline/load_subtotal");
-                  $('#discount').load("Transaksi_offline/load_discount");
-                  $('#grandtotal').load("Transaksi_offline/load_grandtotal");
-                  $("#kd_barang").focus();
+                reload_table();
+                $('#subtotal').load("Transaksi_offline/load_subtotal");
+                $('#discount').load("Transaksi_offline/load_discount");
+                $('#grandtotal').load("Transaksi_offline/load_grandtotal");
+                $("#kd_barang").focus();
+                Swal.fire(
+                    'Transaksi Dibatalkan',
+                    'Transaksi telah dibatalkan',
+                    'success'
+                    )
             }
         });
         return false;

@@ -131,8 +131,7 @@
                                 <div class="col-12">
                                     <button type="button" class="btn btn-danger btn-rounded" id="batal">Batal</button>
                                     <input type="submit" class="btn btn-success btn-rounded" id="cetak" value="Cetak" disabled="disabled">
-                                    <button type="button" class="btn btn-primary btn-rounded" id="selesai"
-                                        disabled='disabled'>Selesai</button>
+                                    <input type="button" class="btn btn-primary btn-rounded" id="selesai" value="Selesai" disabled='disabled'>
                                 </div>
                             </div>
                         </div>

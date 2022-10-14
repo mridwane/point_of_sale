@@ -305,8 +305,9 @@ class Transaksi_offline extends CI_Controller {
 
         // Data transaksi
         $printer->initialize();
+        $printer->text("No.Trans : ".$fid_sales."\n");
         $printer->text("Cashier : ".$cname."\n");
-        $printer->text("Date : ".$tgl_struk."\n");
+        $printer->text("Date : ".$tgl_struk."\n");        
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
@@ -340,8 +341,6 @@ class Transaksi_offline extends CI_Controller {
 
         $printer->feed(3); // mencetak 5 baris kosong agar terangkat (pemotong kertas saya memiliki jarak 5 baris dari toner)
         $printer->close();
-
-        
     }
     
     
