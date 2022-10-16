@@ -44,7 +44,8 @@ class Transaksi_offline extends CI_Controller {
 
     public function remove_item()
     {
-        $rowid = $this->input->post('kd_barang');
+        //$rowid = $this->input->post('kd_barang'); -- test
+		$rowid = $this->input->post('kd_barang');
         $data = array(
             'rowid'   => $rowid,
             'qty'     => 0
