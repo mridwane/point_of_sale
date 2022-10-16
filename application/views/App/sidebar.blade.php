@@ -57,7 +57,7 @@
                         <li class="nav-item">
                             <a href="<?= site_url()?>Product" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Barang') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Data Barang</p>
+                                <p>Data Product</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -67,9 +67,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="<?= site_url()?>DataTransaksi" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Transaksi') echo 'active';?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Data Transaksi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="<?= site_url()?>DataPenjualan" class="nav-link <?php if(isset($sub_title)) if($sub_title == 'Data Penjualan') echo 'active';?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Data Penjualan</p>
+                                <p>Data Penjualan Product</p>
                             </a>
                         </li>
                     </ul>

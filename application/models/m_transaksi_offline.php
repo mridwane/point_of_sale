@@ -48,6 +48,15 @@ class m_transaksi_offline extends CI_Model {
         return $hasil->result();
     }
 
+    public function list_transaksi($tanggal)
+    {
+        $this->db->select('*');
+        $this->db->from('wssales');
+        $this->db->where('cdate', $tanggal);
+        $hasil = $this->db->get();
+        return $hasil->result();
+    }
+
     public function total_sales()
     {
         $now = date('Y-m-d');
@@ -85,73 +94,81 @@ class m_transaksi_offline extends CI_Model {
         return $hasil->result();
     }
 
-    // function laporan_transaksi($bulan)
-    // {
-    //     $this->db->where('MONTH(tanggal_transaksi)', $bulan);
-    //     return $this->db->get('Transaksi')->result(); 
-    // }
+    var $table = 'wssales'; //nama tabel dari database
+    var $column_order = array(null, 'seq','cdate'); //field yang ada di table product
+    var $column_search = array('seq'); //field yang diizin untuk pencarian 
+    var $order = array('seq' => 'Desc'); // default order 
 
-    // public function jumlah($bulan)
-    // {
-    //     $this->db->select_sum('subtotal');
-    //     $this->db->select_sum('diskon');
-    //     $this->db->select_sum('total');
-    //     $this->db->where('MONTH(tanggal_transaksi)', $bulan);
-    //     $result = $this->db->get('transaksi')->row();
-    //     return $result;
-    // }
+    private function _get_datatables_query()
+    {
+        $this->db->from($this->table);  
+        
+        $i = 0;
+     
+        foreach ($this->column_search as $item) // looping awal
+        {
+            if($_POST['search']['value']) // jika datatable mengirimkan pencarian dengan metode POST
+            {
+                 
+                if($i===0) // looping awal
+                {
+                    $this->db->group_start(); 
+                    $this->db->like($item, $_POST['search']['value']);
+                }
+                else
+                {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+ 
+                if(count($this->column_search) - 1 == $i) 
+                    $this->db->group_end(); 
+            }
+            $i++;
+        }
+         
+        if(isset($_POST['order'])) 
+        {
+            $this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } 
+        else if(isset($this->order))
+        {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+ 
+    function get_datatables()
+    {
+        $this->_get_datatables_query();
+        if($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+ 
+    function count_filtered()
+    {
+        $this->_get_datatables_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+ 
+    public function count_all()
+    {
+        $this->db->from($this->table);
+        return $this->db->count_all_results();
+    }
 
-   // public function barang_terjual($bulan)
-    // {
-    //     // $this->db->select('b.nama_barang, b.harga_jual, b.harga_beli');
-    //     $this->db->select_sum('dt.sub_harga_jual');
-    //     $this->db->select_sum('dt.jumlah');
-    //     $this->db->from('detail_transaksi as dt');
-    //     $this->db->join('barang as b', 'b.kd_barang = dt.kd_barang');
-    //     $this->db->join('transaksi as t', 't.kd_transaksi = dt.kd_transaksi');
-    //     $this->db->where('MONTH(t.tanggal_transaksi)', $bulan);
-    //     $this->db->group_by('b.nama_barang');
-    //     $hasil = $this->db->get();
-    //     return $hasil->result();
-    // }
-
-    // public function jumlah_barang_terjual($bulan)
-    // {
-
-    //     $this->db->select_sum('b.harga_jual');
-    //     $this->db->select_sum('b.harga_beli');
-    //     $this->db->select_sum('dt.sub_harga_beli');
-    //     $this->db->select_sum('dt.sub_harga_jual');
-    //     $this->db->select_sum('dt.jumlah');
-    //     $this->db->from('detail_transaksi as dt');
-    //     $this->db->join('barang as b', 'b.kd_barang = dt.kd_barang');
-    //     $this->db->join('transaksi as t', 't.kd_transaksi = dt.kd_transaksi');
-    //     $this->db->where('MONTH(t.tanggal_transaksi)', $bulan);
-    //     $hasil = $this->db->get()->row();
-    //     return $hasil;
-    // }
-
-    
-
-   
-
-    // public function list_barang_terjual()
-    // {
-    //     $kemarin = date('Y-m-d', strtotime("-4 day", strtotime(date("Y-m-d"))));
-
-    //     $this->db->select('b.nama_barang, k.nama_kategori, dt.jumlah');
-    //     $this->db->select_sum('dt.sub_harga_beli', 'total');
-    //     $this->db->from('detail_transaksi as dt');        
-    //     $this->db->join('barang as b', 'b.kd_barang = dt.kd_barang');
-    //     $this->db->join('transaksi as t', 't.kd_transaksi = dt.kd_transaksi');
-    //     $this->db->join('kategori as k', 'k.kd_kategori = b.kd_kategori');
-    //     $this->db->where('t.tanggal_transaksi', $kemarin);
-    //     $this->db->order_by('dt.jumlah', 'DESC');
-    //     $this->db->limit('5');
-    //     $this->db->group_by('b.nama_barang');
-    //     $hasil = $this->db->get();
-    //     return $hasil->result();
-    // }
+    public function get_sales($seq)
+    {
+        $this->db->select('p.cname as product_name, sd.qty as qty, sd.price as price, sd.sub_discount as disc, sd.sub_total, s.total as total, s.paid as paid, s.refund as refund');
+        $this->db->from('wssales_detail as sd');
+        $this->db->join('wssales as s', 's.seq = sd.fid_sales');
+        $this->db->join('wsproduct as p', 'p.ccode = sd.fid_product');
+        $this->db->where('s.seq',$seq);
+        $query = $this->db->get();
+        return $query->result();
+    }
 
     
     
