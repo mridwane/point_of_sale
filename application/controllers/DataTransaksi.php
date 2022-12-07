@@ -49,7 +49,7 @@ class DataTransaksi extends CI_Controller {
             $row[] = $field->seq;
             $row[] = $field->cdate;
             $row[] = '<input type="button" class="btn btn-primary btn-rounded receipt" data-seq="'.$field->seq.'" value="Print Struk">
-                        <a href="DataTransaksi/receipt_pdf" type="submit" class="btn btn-warning btn-rounded" target="_blank">Download PDF</a>';
+                        <input type="button" class="btn btn-warning btn-rounded pdf"  data-seq="'.$field->seq.'" target="_blank" value="Download PDF">';
             $data[] = $row;
         }
  
@@ -179,6 +179,14 @@ class DataTransaksi extends CI_Controller {
         $printer->close();
     }
 
+    public function images_pdf() {
+        $this->load->library('pdf');
+        $pdf = new FPDF(); //SETTING UKURAN KERTAS DI DALAM ARRAY   
+        $pdf->AddPage(); 
+        $pdf->Image(base_url().'assets/images/logo.png', 10, 10); 
+        $pdf->Output();
+    }
+
     public function receipt_pdf(){
 
         $this->load->library('pdf');
@@ -187,22 +195,17 @@ class DataTransaksi extends CI_Controller {
         $company_name = $this->session->userdata('company_name');
         $company_address = $this->session->userdata('company_address');
         $tgl_struk = date("d-m-Y H:i:s");
-        // $seq = html_escape($this->input->post('seq'));
-        $seq = 100000048;
+        $seq = html_escape($this->input->post('seq'));
         $sales = $this->m_transaksi_offline->get_sales($seq);
-        // $sa = $this->m_transaksi_offline->get_sales_array($seq);
-        // foreach ($sa as $i){
-        //     echo $i['product_name'];
-        // }
-        //  pdf
         $pdf = new FPDF('P','mm',array(58,100)); //SETTING UKURAN KERTAS DI DALAM ARRAY        
         $pdf->SetMargins(5, 5);
         $pdf->AddPage(); // membuat halaman baru
-        $pdf->SetFont('Arial','B',9); // setting jenis font yang akan digunakan
+        $pdf->SetFont('Arial','B',6); // setting jenis font yang akan digunakan
         // mencetak string 
+        $pdf->Image(base_url().'assets/images/logo1.png', 5, 5, -1200);         
         $pdf->Cell(0,2,$company_name,0,1,'C');
         $pdf->Cell(2,2,'',0,1);
-        $pdf->SetFont('Arial','B',8); // setting jenis font yang akan digunakan
+        $pdf->SetFont('Arial','B',5); // setting jenis font yang akan digunakan
         $pdf->Cell(0,3,$company_address,0,1,'C');
         $pdf->Cell(5,2,'',0,1); // Memberikan space kebawah agar tidak terlalu rapat
         $pdf->SetFont('Arial','B',6);
@@ -260,6 +263,7 @@ class DataTransaksi extends CI_Controller {
         $pdf->Cell(8,2,'',0,1); // Memberikan space kebawah agar tidak terlalu rapat
         $pdf->Cell(0,2,'Terima kasih telah berbelanja.',0,1,'C'); 
         $pdf->Output('I', "Receipt_$seq.pdf", true);
+        // $pdf->Output();
     }
 
    
