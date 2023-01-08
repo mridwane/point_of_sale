@@ -12,13 +12,13 @@ class DataTransaksi extends CI_Controller {
 			redirect('Auth/login');
 		}
         else if($this->session->userdata('kd_role') == 2)
-        {            
+        {
             $keluar = $this->session->sess_destroy();
             redirect('Auth');
 		}
     }
-    
-    
+
+
     public function index()
     {
         $data = array(
@@ -29,7 +29,7 @@ class DataTransaksi extends CI_Controller {
     }
 
     public function cek_transaksi()
-	{         
+	{
 		$tanggal = html_escape($this->input->post('tanggal'));
 		$cekTransaksi = $this->m_transaksi_offline->cek_penjualan($tanggal);
 		if ($cekTransaksi > 0)
@@ -49,10 +49,10 @@ class DataTransaksi extends CI_Controller {
             $row[] = $field->seq;
             $row[] = $field->cdate;
             $row[] = '<input type="button" class="btn btn-primary btn-rounded receipt" data-seq="'.$field->seq.'" value="Print Struk">
-                        <input type="button" class="btn btn-warning btn-rounded pdf"  data-seq="'.$field->seq.'" target="_blank" value="Download PDF">';
+                        <a href="'.site_url().'DataTransaksi/receipt_pdf/'.$field->seq.'" class="btn btn-warning btn-rounded " target="_blank">Download PDF</a>';
             $data[] = $row;
         }
- 
+
         $output = array(
             "draw" => $_POST['draw'],
             "recordsTotal" => $this->m_transaksi_offline->count_all(),
@@ -79,7 +79,7 @@ class DataTransaksi extends CI_Controller {
         $connector = new Escpos\PrintConnectors\WindowsPrintConnector("POS58");
 
         // membuat objek $printer agar dapat di lakukan fungsinya
-        $printer = new Escpos\Printer($connector);        
+        $printer = new Escpos\Printer($connector);
 
         // membuat fungsi untuk membuat 1 baris tabel, agar dapat dipanggil berkali-kali dgn mudah
         function buatBaris5Kolom($kolom1, $kolom2, $kolom3, $kolom4, $kolom5) {
@@ -90,7 +90,7 @@ class DataTransaksi extends CI_Controller {
             $lebar_kolom_4 = 6;
             $lebar_kolom_5 = 9;
 
-            // Melakukan wordwrap(), jadi jika karakter teks melebihi lebar kolom, ditambahkan \n 
+            // Melakukan wordwrap(), jadi jika karakter teks melebihi lebar kolom, ditambahkan \n
             $kolom1 = wordwrap($kolom1, $lebar_kolom_1, "\n", true);
             $kolom2 = wordwrap($kolom2, $lebar_kolom_2, "\n", true);
             $kolom3 = wordwrap($kolom3, $lebar_kolom_3, "\n", true);
@@ -110,10 +110,10 @@ class DataTransaksi extends CI_Controller {
             // Mendeklarasikan variabel untuk menampung kolom yang sudah di edit
             $hasilBaris = array();
 
-            // Melakukan perulangan setiap baris (yang dibentuk wordwrap), untuk menggabungkan setiap kolom menjadi 1 baris 
+            // Melakukan perulangan setiap baris (yang dibentuk wordwrap), untuk menggabungkan setiap kolom menjadi 1 baris
             for ($i = 0; $i < $jmlBarisTerbanyak; $i++) {
 
-                // memberikan spasi di setiap cell berdasarkan lebar kolom yang ditentukan, 
+                // memberikan spasi di setiap cell berdasarkan lebar kolom yang ditentukan,
                 $hasilKolom1 = str_pad((isset($kolom1Array[$i]) ? $kolom1Array[$i] : ""), $lebar_kolom_1, " ");
                 $hasilKolom2 = str_pad((isset($kolom2Array[$i]) ? $kolom2Array[$i] : ""), $lebar_kolom_2, " ");
 
@@ -128,7 +128,7 @@ class DataTransaksi extends CI_Controller {
 
             // Hasil yang berupa array, disatukan kembali menjadi string dan tambahkan \n disetiap barisnya.
             return implode("\n", $hasilBaris) . "\n";
-        }   
+        }
 
         // Membuat judul
         $printer->initialize();
@@ -143,7 +143,7 @@ class DataTransaksi extends CI_Controller {
         $printer->initialize();
         $printer->text("No.Trans : ".$seq."\n");
         $printer->text("Cashier : ".$cname."\n");
-        $printer->text("Date : ".$tgl_struk."\n");        
+        $printer->text("Date : ".$tgl_struk."\n");
 
         // Membuat tabel
         $printer->initialize(); // Reset bentuk/jenis teks
@@ -155,7 +155,7 @@ class DataTransaksi extends CI_Controller {
         foreach ($sales as $item)
         {
             $printer->text(buatBaris5Kolom($item->product_name, $item->qty, intval($item->price), intval($item->disc), intval($item->sub_total)));
-            
+
             $total = intval($item->total);
             $paid = intval($item->paid);
             $refund = intval($item->refund);
@@ -163,7 +163,7 @@ class DataTransaksi extends CI_Controller {
 
         // $subtotal = $this->cart->total();
         // $gp = $subtotal - $total_discount;
-        
+
         $printer->text("------------------------------------------\n");
         $printer->text(buatBaris5Kolom('', '', '', "Total", $total));
         $printer->text(buatBaris5Kolom('', '', '', "Cash", $paid));
@@ -181,9 +181,9 @@ class DataTransaksi extends CI_Controller {
 
     public function images_pdf() {
         $this->load->library('pdf');
-        $pdf = new FPDF(); //SETTING UKURAN KERTAS DI DALAM ARRAY   
-        $pdf->AddPage(); 
-        $pdf->Image(base_url().'assets/images/logo.png', 10, 10); 
+        $pdf = new FPDF(); //SETTING UKURAN KERTAS DI DALAM ARRAY
+        $pdf->AddPage();
+        $pdf->Image(base_url().'assets/images/logo.png', 10, 10);
         $pdf->Output();
     }
 
@@ -195,14 +195,14 @@ class DataTransaksi extends CI_Controller {
         $company_name = $this->session->userdata('company_name');
         $company_address = $this->session->userdata('company_address');
         $tgl_struk = date("d-m-Y H:i:s");
-        $seq = html_escape($this->input->post('seq'));
+        $seq = $this->uri->segment(3);
         $sales = $this->m_transaksi_offline->get_sales($seq);
-        $pdf = new FPDF('P','mm',array(58,100)); //SETTING UKURAN KERTAS DI DALAM ARRAY        
+        $pdf = new FPDF('P','mm',array(58,100)); //SETTING UKURAN KERTAS DI DALAM ARRAY
         $pdf->SetMargins(5, 5);
         $pdf->AddPage(); // membuat halaman baru
         $pdf->SetFont('Arial','B',6); // setting jenis font yang akan digunakan
-        // mencetak string 
-        $pdf->Image(base_url().'assets/images/logo1.png', 5, 5, -1200);         
+        // mencetak string
+        $pdf->Image(base_url().'assets/images/logo1.png', 5, 5, -1200);
         $pdf->Cell(0,2,$company_name,0,1,'C');
         $pdf->Cell(2,2,'',0,1);
         $pdf->SetFont('Arial','B',5); // setting jenis font yang akan digunakan
@@ -223,7 +223,7 @@ class DataTransaksi extends CI_Controller {
         $pdf->Cell(10,3,'Price',0,0,'R');
         $pdf->Cell(10,3,'Disc',0,0,'R');
         $pdf->Cell(10,3,'Subtotal',0,1,'R');
-        $pdf->Cell(54,3,'-------------------------------------------------------------------------------------------------',0,1,'C'); 
+        $pdf->Cell(54,3,'-------------------------------------------------------------------------------------------------',0,1,'C');
         $pdf->SetFont('Arial','B',7);
 
         $total = 0;
@@ -241,7 +241,7 @@ class DataTransaksi extends CI_Controller {
             $refund = intval($item->refund);
         }
         // total
-        $pdf->Cell(54,3,'-------------------------------------------------------------------------------------------------',0,1,'C'); 
+        $pdf->Cell(54,3,'-------------------------------------------------------------------------------------------------',0,1,'C');
         $pdf->SetFont('Arial','B',6);
         $pdf->Cell(14,5,'',0,0);
         $pdf->Cell(6,5,'',0,0);
@@ -259,13 +259,13 @@ class DataTransaksi extends CI_Controller {
         $pdf->Cell(10,5,'Refund',0,0,'R');
         $pdf->Cell(10,5,$refund,0,1,'R');
         $pdf->SetFont('Arial','B',6); // setting jenis font yang akan digunakan
-        // mencetak string 
+        // mencetak string
         $pdf->Cell(8,2,'',0,1); // Memberikan space kebawah agar tidak terlalu rapat
-        $pdf->Cell(0,2,'Terima kasih telah berbelanja.',0,1,'C'); 
+        $pdf->Cell(0,2,'Terima kasih telah berbelanja.',0,1,'C');
         $pdf->Output('I', "Receipt_$seq.pdf", true);
-        // $pdf->Output();
+        // // $pdf->Output();
     }
 
-   
+
 
 }
